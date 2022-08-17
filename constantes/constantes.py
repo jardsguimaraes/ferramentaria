@@ -1,0 +1,11 @@
+#     CORES
+PRETO = "#000000"
+BRANCO = "#feffff"
+VERDE = "#4fa882"
+co3 = "#38576b"
+co4 = "#403d3d"
+co5 = "#e06636"
+AZUL = "#038cfc"
+VERMELHO = "#ef5350"
+VERDE_CLARO = "#263238"
+AZUL_CLARO = "#e9edf5"
