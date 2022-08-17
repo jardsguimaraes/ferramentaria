@@ -1,4 +1,5 @@
 from constantes.constantes import BRANCO
+from view.janela_sobre import JanelaSobre
 from tkinter import Tk, Menu, Label, PhotoImage
 
 import sys
@@ -20,7 +21,7 @@ class JanelaPrincipal:
         pass
 
     def janela_sobre(self):
-        pass
+        JanelaSobre()
 
     def sair(self):
         sys.exit(0)
@@ -49,7 +50,6 @@ class JanelaPrincipal:
         self.janela.configure(menu=barra_menu, background=BRANCO)
 
         # Imagens Janela Principal
-        print(self.pasta_app)
         img_logo_ferramentaria = PhotoImage(file=self.pasta_app + '\\imagens\\logo1.png')
         img_logo_estacio = PhotoImage(file=self.pasta_app + '\\imagens\\estacio.png')
 
