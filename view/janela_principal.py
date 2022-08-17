@@ -1,5 +1,4 @@
 from constantes.constantes import BRANCO
-from view.janela_sobre import JanelaSobre
 from tkinter import Tk, Menu, Label, PhotoImage
 
 import sys
