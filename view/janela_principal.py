@@ -21,7 +21,7 @@ class JanelaPrincipal:
         pass
 
     def janela_sobre(self):
-        JanelaSobre()
+        pass
 
     def sair(self):
         sys.exit(0)
