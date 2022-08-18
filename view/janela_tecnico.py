@@ -5,7 +5,7 @@ from select import select
 from turtle import width
 from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERMELHO, VERDE, PRETO
 from view.janela import Janela
-from tkinter import Button, Frame, IntVar, Label, LabelFrame, Entry, Scrollbar
+from tkinter import END, Button, Frame, IntVar, Label, LabelFrame, Entry, Scrollbar
 from tkinter import Radiobutton, messagebox, ttk
 from tkinter.constants import NW
 
@@ -128,7 +128,8 @@ class JanelaTecnico(Janela):
             pass
 
         def limpar_entry_pesquisar():
-            pass
+            self.ent_pesquisar.delete(0, END)
+            self.ent_pesquisar.focus()
 
         # Frame Pesquisar
         fr_pesquisar = LabelFrame(self.frame_direita, text='Pesquisar',
