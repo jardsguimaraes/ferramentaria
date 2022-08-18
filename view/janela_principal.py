@@ -1,4 +1,5 @@
 from constantes.constantes import BRANCO
+from view.janela_tecnico import JanelaTecnico
 from view.janela_sobre import JanelaSobre
 from tkinter import Tk, Menu, Label, PhotoImage
 
@@ -8,11 +9,16 @@ import sys
 class JanelaPrincipal:
 
     def __init__(self, local_magens):
-        self.pasta_app =local_magens
+        self.pasta_app = local_magens
         self.carregar_janela_principal()
 
+    def limpaar_logo(self):
+        self.lb_logo_ferramentaria.destroy()
+        self.lb_logo_estacio.destroy()
+    
     def janela_tecnico(self):
-        pass
+        self.limpaar_logo()
+        JanelaTecnico(self.janela)
 
     def janela_ferramenta(self):
         pass
@@ -35,14 +41,16 @@ class JanelaPrincipal:
         altura_screen = self.janela.winfo_screenheight()
         posx = largura_screen/2 - largura_janela/2
         posy = altura_screen/2 - altura_janela/2
-        self.janela.geometry('%dx%d%+d+%d' % (largura_janela, altura_janela, posx, posy))
+        self.janela.geometry('%dx%d%+d+%d' %
+                             (largura_janela, altura_janela, posx, posy))
         self.janela.resizable(False, False)
 
         # Menu
         barra_menu = Menu(self.janela)
 
         barra_menu.add_command(label='Tecnico', command=self.janela_tecnico)
-        barra_menu.add_command(label='Ferramenta', command=self.janela_ferramenta)
+        barra_menu.add_command(
+            label='Ferramenta', command=self.janela_ferramenta)
         barra_menu.add_command(label='Reserva', command=self.janela_reserva)
         barra_menu.add_command(label='Sobre', command=self.janela_sobre)
         barra_menu.add_command(label='Sair', command=self.sair)
@@ -50,15 +58,16 @@ class JanelaPrincipal:
         self.janela.configure(menu=barra_menu, background=BRANCO)
 
         # Imagens Janela Principal
-        img_logo_ferramentaria = PhotoImage(file=self.pasta_app + '\\imagens\\logo1.png')
-        img_logo_estacio = PhotoImage(file=self.pasta_app + '\\imagens\\estacio.png')
+        img_logo_ferramentaria = PhotoImage(
+            file=self.pasta_app + '\\imagens\\logo1.png')
+        img_logo_estacio = PhotoImage(
+            file=self.pasta_app + '\\imagens\\estacio.png')
 
-        lb_logo_ferramentaria = Label(self.janela, image=img_logo_ferramentaria, border=0)
-        lb_logo_ferramentaria.pack()
+        self.lb_logo_ferramentaria = Label(
+            self.janela, image=img_logo_ferramentaria, border=0)
+        self.lb_logo_ferramentaria.pack()
 
-        lb_logo_estacio = Label(self.janela, image=img_logo_estacio, border=0)
-        lb_logo_estacio.pack()
+        self.lb_logo_estacio = Label(self.janela, image=img_logo_estacio, border=0)
+        self.lb_logo_estacio.pack()
 
         self.janela.mainloop()
-        
-
