@@ -14,7 +14,7 @@ class Database:
 
     def abrir_conexao(self):
         try:
-            self.conn = psycopg2.connect(Database='postgres',
+            self.conn = psycopg2.connect(database='postgres',
                                          user='postgres',
                                          password='@Adm10092007',
                                          host='127.0.0.1',
@@ -97,6 +97,7 @@ class Database:
             print('Erro no Update Tecnico', ex)
         finally:
             self.fechar_conexao()
+
 
 
 

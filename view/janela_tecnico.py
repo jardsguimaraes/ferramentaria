@@ -1,19 +1,17 @@
-from fractions import Fraction
-from itertools import tee
-from msilib.schema import RadioButton
-from select import select
-from turtle import width
 from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERMELHO, VERDE, PRETO
+from controller.controller_ferramentaria import ControllerFerramentaria
 from view.janela import Janela
-from tkinter import END, Button, Frame, IntVar, Label, LabelFrame, Entry, Scrollbar
+from tkinter import Button, Frame, IntVar, Label, LabelFrame, Entry, Scrollbar
 from tkinter import Radiobutton, messagebox, ttk
-from tkinter.constants import NW
+from tkinter.constants import NW, END
+
 
 
 class JanelaTecnico(Janela):
 
     def __init__(self, janela_principal):
         super().__init__(janela_principal)
+        self.controller = ControllerFerramentaria()
         self.carregar_frame_cima()
         self.carregar_frame_baixo()
         self.carregar_frame_direita()
@@ -125,7 +123,10 @@ class JanelaTecnico(Janela):
             pass
 
         def botao_pesquisar():
-            pass
+            if grupo_rb == 0:
+                self.controller.preencher_treeview(tv_tecnico)
+                self.ent_pesquisar.delete(0, END)
+                self.ent_pesquisar.focus()
 
         def limpar_entry_pesquisar():
             self.ent_pesquisar.delete(0, END)
@@ -195,3 +196,5 @@ class JanelaTecnico(Janela):
         tv_tecnico.configure(yscrollcommand=sbv.set)
 
         sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.96)
+
+        self.controller.preencher_treeview(tv_tecnico)
