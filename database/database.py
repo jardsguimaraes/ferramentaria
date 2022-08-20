@@ -1,4 +1,3 @@
-from cgi import test
 from psycopg2 import DatabaseError
 from database.querys import PESQUISAR_TECNICOS, PESQUISAR_TECNICO_ARGUMENTO_CPF
 from database.querys import PESQUISAR_TECNICO_ARGUMENTO_NOME, INSERIR_TECNICO

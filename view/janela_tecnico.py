@@ -1,6 +1,3 @@
-from ast import Delete
-from html import entities
-from webbrowser import get
 from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERMELHO, VERDE, PRETO
 from controller.controller_ferramentaria import ControllerFerramentaria
 from view.janela import Janela
