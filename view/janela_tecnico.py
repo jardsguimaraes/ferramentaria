@@ -10,6 +10,8 @@ from tkinter.constants import NW, END
 
 
 class JanelaTecnico(Janela):
+    """Classe da Jenela Principal Tecnico
+    """
 
     def __init__(self, janela_principal):
         super().__init__(janela_principal)
@@ -20,6 +22,12 @@ class JanelaTecnico(Janela):
         self.ent_cpf.focus()
 
     def valida_formulario(self):
+        """Verifica se não há nenhum campo em branco
+           no formulário
+
+        Returns:
+            bool: Retorna Verdadeiro se todos os compos estiver vazio
+        """
         retorno = True
 
         if not self.ent_cpf.get().split():
@@ -34,25 +42,39 @@ class JanelaTecnico(Janela):
         return retorno
 
     def limpar_campos(self):
+        """Limpa todos os campos do formulário
+        """
         self.ent_cpf.delete(0, END)
         self.ent_nome.delete(0, END)
         self.ent_telefone.delete(0, END)
         self.ent_equipe.delete(0, END)
 
     def pega_formulario(self):
+        """Retorna as informações de todo os campos
+           do formulário
+
+        Returns:
+            tuple: Retorna uma tupla com as informações
+        """
         parametros = (self.ent_cpf.get(), self.ent_nome.get(),
                       self.ent_telefone.get(), self.cbx_turno.get(),
                       self.ent_equipe.get().upper())
         return parametros
 
     def carregar_frame_cima(self):
+        """Carrega os componentes do Frame Titulo
+        """
         lb_titulo = Label(self.frame_cima, text='Tecnico', font='Ivy 13 bold',
                           fg=BRANCO, bg=VERDE, relief='flat')
         lb_titulo.place(x=10, y=10)
 
     def carregar_frame_baixo(self):
+        """Carrega os componentes do Frame Formulário
+        """
 
         def botao_inserir():
+            """Insere um Tecnico
+            """
             if self.valida_formulario():
                 parametros = self.pega_formulario()
                 self.controller.inserir_tecnico(*parametros)
@@ -69,6 +91,8 @@ class JanelaTecnico(Janela):
                 self.ent_cpf.focus()
 
         def botao_atualizar():
+            """Atualiza o Tecnico
+            """
             if self.valida_formulario():
                 parametros = self.pega_formulario()
                 self.controller.atualizar_tecnico(*parametros)
@@ -86,6 +110,8 @@ class JanelaTecnico(Janela):
 
 
         def botao_deletar():
+            """Deleta um Tecnico
+            """
             if self.valida_formulario():
                 parametros = self.pega_formulario()
                 self.controller.deletar_tecnico(*parametros)
@@ -177,8 +203,15 @@ class JanelaTecnico(Janela):
         self.btn_deletar.place(x=215, y=300)
 
     def carregar_frame_direita(self):
+        """Carrega os componentes do Frame da Direita
+        """
 
         def apresentar_dados_selecionados(event):
+            """Retonra o Tecnico seleciona no Treeview
+
+            Args:
+                event (tuple): Tupla com o Tecnico Selecionado
+            """
             tecnico_selecionado = self.tv_tecnico.selection()
             valores = self.tv_tecnico.item(tecnico_selecionado, 'values')
 
@@ -191,6 +224,9 @@ class JanelaTecnico(Janela):
             self.ent_equipe.insert(0, valores[4])
 
         def botao_pesquisar():
+            """Verifica qual Opção do RadioButton esta selecionada e 
+               chama a função correta
+            """
             if grupo_rb.get() == 0:
                 self.controller.preencher_treeview(self.tv_tecnico)
                 self.ent_pesquisar.delete(0, END)
@@ -228,6 +264,8 @@ class JanelaTecnico(Janela):
                     self.ent_pesquisar.focus()
 
         def limpar_entry_pesquisar():
+            """Limpa o Campo de Pesquisa
+            """
             self.ent_pesquisar.delete(0, END)
             self.ent_pesquisar.focus()
 

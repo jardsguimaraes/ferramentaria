@@ -4,12 +4,16 @@ from tkinter.constants import NSEW
 
 
 class Janela:
+    """Classe Pai para as janelas do programa
+    """
 
     def __init__(self, janela_principal):
         self.janela_principal = janela_principal
         self.criar_frames()
 
     def criar_frames(self):
+        """Metodo que cria os Frames da jenela
+        """
         self.frame_cima = Frame(self.janela_principal, width=310, height=50,
                                 relief='flat', bg=VERDE)
         self.frame_cima.grid(row=0, column=0)

@@ -3,6 +3,9 @@ from tkinter import Tk, Message
 
 
 class JanelaSobre:
+    """Janela com as informações dos Alunos que 
+       desenvolveram o programa
+    """
 
     def __init__(self):
         self.carregar_janela_sobre()

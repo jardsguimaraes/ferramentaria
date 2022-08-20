@@ -2,6 +2,11 @@ from database.database import Database
 
 
 class Tecnico:
+    """Classe responsável pelas regras de negocio do Tecnico
+
+    Returns:
+        Tecnico: Retorna os atributos do Tecnico
+    """
 
     db = Database()
 
@@ -49,19 +54,45 @@ class Tecnico:
         self._equipe = equipe
 
     def tratar_cpf(self, cpf):
+        """Converte o CPF para apenas número
+
+        Args:
+            cpf (str): CPF a ser convertido
+
+        Returns:
+            int: Retona o CPF convertido em número
+        """
         crt = '.-'
         cpf_tratado = cpf.translate(str.maketrans('', '', crt))
         return int(cpf_tratado)
 
     def inserir(self, tecnico):
+        """Trata as regras de negócio antes de chamar o metodo que 
+           insere o Tecnico no Bando de Dados
+
+        Args:
+            tecnico (Tecnico): Tecnico que será inserido
+        """
         parametros = (tecnico.cpf, tecnico.nome, tecnico.telefone,
                       tecnico.turno, tecnico.equipe)
         self.db.inserir_tecnico(*parametros)
 
     def atualizar(self, tecnico):
+        """Trata as regras de negócio antes de chamar o metodo que 
+           Atualiza o Tecnico no Bando de Dados
+
+        Args:
+            tecnico (Tecnico): Tecnico que será Atualizado
+        """
         parametros = (tecnico.nome, tecnico.telefone, tecnico.turno,
                       tecnico.equipe, tecnico.cpf)
         self.db.atualizar_tecnico(*parametros)
 
     def deletar(self, tecnico):
+        """Trata as regras de negócio antes de chamar o metodo que 
+           Deletdo o Tecnico no Bando de Dados
+
+        Args:
+            tecnico (Tecnico): Tecnico que será Deletado
+        """
         self.db.deletar_tecnico(tecnico.cpf)

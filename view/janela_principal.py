@@ -7,32 +7,48 @@ import sys
 
 
 class JanelaPrincipal:
+    """Classe da Jenela Principal do Programa
+    """
 
     def __init__(self, local_magens):
         self.pasta_app = local_magens
         self.carregar_janela_principal()
 
-    def limpaar_logo(self):
+    def limpar_logo(self):
+        """Limpa as logos da tela para a inserção dos componentes 
+           da próxima janela"""
         self.lb_logo_ferramentaria.destroy()
         self.lb_logo_estacio.destroy()
     
     def janela_tecnico(self):
-        self.limpaar_logo()
+        """Chama a Janela Tecnico
+        """
+        self.limpar_logo()
         JanelaTecnico(self.janela)
 
     def janela_ferramenta(self):
+        """Chama a Janela Ferramenta
+        """
         pass
 
     def janela_reserva(self):
+        """Chama a Janela Reserva
+        """
         pass
 
     def janela_sobre(self):
+        """Chama a Janela Sobre
+        """
         JanelaSobre()
 
     def sair(self):
+        """Fecha o Programa
+        """
         sys.exit(0)
 
     def carregar_janela_principal(self):
+        """Carrega os componentes da Janela Principal
+        """
         self.janela = Tk()
         self.janela.title('Ferramentaria')
         largura_janela = 1043
