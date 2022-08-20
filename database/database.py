@@ -1,7 +1,12 @@
 from psycopg2 import DatabaseError
-from database.querys import PESQUISAR_TECNICOS, PESQUISAR_TECNICO_ARGUMENTO_CPF
-from database.querys import PESQUISAR_TECNICO_ARGUMENTO_NOME, INSERIR_TECNICO
+from database.querys import PESQUISAR_FERRAMENTA_DESCRICAO, PESQUISAR_TECNICOS
+from database.querys import PESQUISAR_TECNICO_ARGUMENTO_NOME
+from database.querys import INSERIR_TECNICO, PESQUISAR_TECNICO_ARGUMENTO_CPF
 from database.querys import ATUALIZAR_TECNICO, DELETAR_TECNICO
+from database.querys import PESQUISAR_FERRAMENTAS, PESQUISAR_FERRAMENTA_ID
+from database.querys import PESQUISAR_FERRAMENTA_FABRICANTE
+from database.querys import INSERIR_FERRAMENTA, DELETAR_FERRAMENTA
+from database.querys import ATUALIZAR_FERRAMENTA
 
 import psycopg2
 
@@ -140,6 +145,129 @@ class Database:
             print('Erro no Update Tecnico', ex)
         finally:
             self.fechar_conexao()
+
+    def pesquisar_ferramenta(self):
+        """Função para pesquisar todas as Ferramentas
+
+        Returns:
+            list: Retorna todas as Ferramentas cadastradas no SGBD
+        """
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(PESQUISAR_FERRAMENTAS)
+            resultado = self.cursor.fetchall()
+            return resultado
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Ferramenta ', ex)
+        finally:
+            self.fechar_conexao()
+
+    def pesquisar_ferramenta_id(self, id):
+        """Função para pesquisar Ferramenta pelo ID
+
+        Args:
+            id (int): ID da Ferramenta a ser pesquisada
+
+        Returns:
+            list: Retorna a Ferramenta cadastradas no SGBD com o ID
+            informado
+        """
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(PESQUISAR_FERRAMENTA_ID, (id, ))
+            resultado = self.cursor.fetchall()
+            return resultado
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Ferramenta ID ', ex)
+        finally:
+            self.fechar_conexao()
+
+    def pesquisar_ferramenta_descricao(self, descricao):
+        """Função para pesquisar Ferramenta pela Descrição
+
+        Args:
+            descricao (str): Descrição da Ferramenta
+
+        Returns:
+            list: Retorna todas as Ferramentas cadastradas no SGBD com a
+            descrição informada
+        """
+        try:            
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(PESQUISAR_FERRAMENTA_DESCRICAO, (descricao, ))
+            resultado = self.cursor.fetchall()
+            return resultado
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Ferramenta Descrição ', ex)
+        finally:
+            self.fechar_conexao()
+
+    def pesquisar_ferramenta_fabricante(self, fabricante):
+        """Função para pesquisar Ferramenta pelo fabricante
+
+        Args:
+            fabricante (str): fabricante da Ferramenta
+
+        Returns:
+            list: Retorna todas as Ferramentas cadastradas no SGBD com o
+            fabricante informado
+        """
+        try:            
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(PESQUISAR_FERRAMENTA_FABRICANTE, (fabricante, ))
+            resultado = self.cursor.fetchall()
+            return resultado
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Ferramenta_fabricante', ex)
+        finally:
+            self.fechar_conexao()
+
+    def inserir_ferramenta(self, *args):
+        """Função para Cadastrar uma Ferramenta no SGBD
+        """
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(INSERIR_FERRAMENTA, args)
+            conexao.commit()
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Insert Ferramenta', ex)
+        finally:
+            self.fechar_conexao()
+
+    def deletar_ferramenta(self, id):
+        """Função para Deletar uma Ferramenta no SGBD
+
+        Args:
+            id (int): ID da ferramenta
+        """
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(DELETAR_FERRAMENTA, (id, ))
+            conexao.commit()
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Ferramenta Fabricante', ex)
+        finally:
+            self.fechar_conexao()
+
+    def atualizar_ferramenta(self, *args):
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(ATUALIZAR_FERRAMENTA, args)
+            conexao.commit()
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Ferramenta_fabricante', ex)
+        finally:
+            self.fechar_conexao()
+
+        
+
 
 
 

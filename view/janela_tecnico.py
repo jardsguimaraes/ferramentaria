@@ -76,7 +76,7 @@ class JanelaTecnico(Janela):
                 parametros = self.pega_formulario()
                 self.controller.inserir_tecnico(*parametros)
                 self.tv_tecnico.delete(*self.tv_tecnico.get_children())
-                self.controller.preencher_treeview(self.tv_tecnico)
+                self.controller.preencher_treeview(self.tv_tecnico, 'tecnico')
                 self.limpar_campos()
                 messagebox.showinfo(title='Cadastrado!!!',
                                     message='Tecnico Cadastrado com Sucesso')
@@ -204,7 +204,7 @@ class JanelaTecnico(Janela):
         """
 
         def apresentar_dados_selecionados(event):
-            """Retonra o Tecnico seleciona no Treeview
+            """Retonra o Tecnico selecionada no Treeview
 
             Args:
                 event (tuple): Tupla com o Tecnico Selecionado
@@ -225,7 +225,7 @@ class JanelaTecnico(Janela):
                chama a função correta
             """
             if grupo_rb.get() == 0:
-                self.controller.preencher_treeview(self.tv_tecnico)
+                self.controller.preencher_treeview(self.tv_tecnico, 'tecnico')
                 self.ent_pesquisar.delete(0, END)
                 self.ent_pesquisar.focus()
             elif grupo_rb.get() == 1:
@@ -334,4 +334,4 @@ class JanelaTecnico(Janela):
 
         sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.96)
 
-        self.controller.preencher_treeview(self.tv_tecnico)
+        self.controller.preencher_treeview(self.tv_tecnico, 'tecnico')

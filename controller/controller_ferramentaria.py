@@ -13,17 +13,30 @@ class ControllerFerramentaria:
 
     db = Database()
 
-    def preencher_treeview(self, treeview):
+    def preencher_treeview(self, treeview, nome_tela):
         """Preenche o Treeview
 
         Args:
             treeview (Treeview): Treview a ser preenchido 
         """
-        tecnicos_cadastrados = self.db.pesquisar_tecnicos()
 
-        for (cpf, nome, telefone, turno, equipe) in tecnicos_cadastrados:
-            treeview.insert('', 'end', values=(cpf, nome, telefone, turno,
-                                               equipe))
+        if nome_tela == 'tecnico':
+            tecnicos_cadastrados = self.db.pesquisar_tecnicos()
+
+            for (cpf, nome, telefone, turno, equipe) in tecnicos_cadastrados:
+                treeview.insert('', 'end', values=(cpf, nome, telefone, turno,
+                                                   equipe))
+        elif nome_tela == 'ferramenta':
+            ferramentas_cadastradas = self.db.pesquisar_ferramenta()
+            for (ID, DESCRICAO, FABRICANTE, VOLTAGEM, SERIAL, TAMANHO,
+                 MANUTENCAO, MEDIDA, TIPO, MATERIAL) in ferramentas_cadastradas:
+                treeview.insert('', 'end', values=('ID', 'DESCRICAO', 'FABRICANTE',
+                                                   'VOLTAGEM', 'SERIAL', 'TAMANHO',
+                                                   'MANUTENCAO', 'MEDIDA', 'TIPO',
+                                                   'MATERIAL'))
+
+        elif nome_tela == 'reserva':
+            pass
 
     def pesquisar_tecnico_cpf(self, cpf):
         """Chama o metodo do banco de dados que retorna o tecnico
@@ -63,20 +76,16 @@ class ControllerFerramentaria:
             tecnico = Tecnico(*args)
             tecnico.atualizar(tecnico)
         else:
-            messagebox.showerror(title='Error', message='Tecnico não encontrado')
+            messagebox.showerror(
+                title='Error', message='Tecnico não encontrado')
 
     def deletar_tecnico(self, *args):
         """Verifica se o Tecnico existe no banco de dados, caso verdadeiro,
            chama o metodo que Deleta um Tecnico no banco de dados 
         """
-        if self.db.pesquisar_tecnico_cpf(args[0]):            
+        if self.db.pesquisar_tecnico_cpf(args[0]):
             tecnico = Tecnico(*args)
             tecnico.deletar(tecnico)
         else:
-            messagebox.showerror(title='Error', message='Tecnico não encontrado')
-
-
-        
-
-    
-
+            messagebox.showerror(
+                title='Error', message='Tecnico não encontrado')
