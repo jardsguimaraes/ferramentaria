@@ -1,11 +1,12 @@
 from database.database import Database
 
+
 class Tecnico:
 
     db = Database()
 
     def __init__(self, cpf, nome, telefone, turno, equipe):
-        self._cpf = cpf
+        self._cpf = self.tratar_cpf(cpf)
         self._nome = nome
         self._telefone = telefone
         self._turno = turno
@@ -14,10 +15,6 @@ class Tecnico:
     @property
     def cpf(self):
         return self._cpf
-
-    @cpf.setter
-    def cpf(self, cpf):
-        self._cpf = cpf
 
     @property
     def nome(self):
@@ -52,76 +49,17 @@ class Tecnico:
         self._equipe = equipe
 
     def tratar_cpf(self, cpf):
-        crt ='.-'
+        crt = '.-'
         cpf_tratado = cpf.translate(str.maketrans('', '', crt))
         return int(cpf_tratado)
 
-    def inserir(self):
-        pass
-    
+    def inserir(self, tecnico):
+        parametros = (tecnico.cpf, tecnico.nome, tecnico.telefone,
+                      tecnico.turno, tecnico.equipe)
+        self.db.inserir_tecnico(*parametros)
+
     def atualizar(self):
         pass
 
     def deletar(self):
         pass
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -18,5 +18,11 @@ class ControllerFerramentaria:
 
     def pesquisar_tecnico_nome(self, nome):
         return self.db.pesquisar_tecnico_nome(nome)
+
+    def inserir_tecnico(self, *args):
+        tecnico = Tecnico(*args)
+        tecnico.inserir(tecnico)
+        
+
     
 

@@ -1,4 +1,5 @@
 from ast import Delete
+from html import entities
 from webbrowser import get
 from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERMELHO, VERDE, PRETO
 from controller.controller_ferramentaria import ControllerFerramentaria
@@ -21,7 +22,28 @@ class JanelaTecnico(Janela):
     def valida_formulario(self):
         retorno = True
 
+        if not self.ent_cpf.get().split():
+            retorno = False
+        elif not self.ent_nome.get().split():
+            retorno = False
+        elif not self.ent_telefone.get().split():
+            retorno = False
+        elif not self.ent_equipe.get().split():
+            retorno = False
+
         return retorno
+
+    def limpar_campos(self):
+        self.ent_cpf.delete(0, END)
+        self.ent_nome.delete(0, END)
+        self.ent_telefone.delete(0, END)
+        self.ent_equipe.delete(0, END)
+
+    def pega_formulario(self):
+        parametros = (self.ent_cpf.get(), self.ent_nome.get(),
+                      self.ent_telefone.get(), self.cbx_turno.get(),
+                      self.ent_equipe.get().upper())
+        return parametros
 
     def carregar_frame_cima(self):
         lb_titulo = Label(self.frame_cima, text='Tecnico', font='Ivy 13 bold',
@@ -32,11 +54,18 @@ class JanelaTecnico(Janela):
 
         def botao_inserir():
             if self.valida_formulario():
-                pass
+                parametros = self.pega_formulario()
+                self.controller.inserir_tecnico(*parametros)
+                self.tv_tecnico.delete(*self.tv_tecnico.get_children())
+                self.controller.preencher_treeview(self.tv_tecnico)
+                self.limpar_campos()
+                messagebox.showinfo(title='Cadastrado!!!',
+                                    message='Tecnico Cadastrado com Sucesso')
             else:
                 messagebox.showerror(title='Error', message='Todos os campos '
                                                             'devem estar '
                                                             'preeenchidos!!!')
+                self.ent_cpf.focus()
 
         def botao_atualizar():
             pass
@@ -121,17 +150,11 @@ class JanelaTecnico(Janela):
 
     def carregar_frame_direita(self):
 
-        def limpar_campos():
-            self.ent_cpf.delete(0, END)
-            self.ent_nome.delete(0, END)
-            self.ent_telefone.delete(0, END)
-            self.ent_equipe.delete(0, END)
-
         def apresentar_dados_selecionados(event):
-            tecnico_selecionado = tv_tecnico.selection()[0]
-            valores = tv_tecnico.item(tecnico_selecionado, 'values')
+            tecnico_selecionado = self.tv_tecnico.selection()[0]
+            valores = self.tv_tecnico.item(tecnico_selecionado, 'values')
 
-            limpar_campos()
+            self.limpar_campos()
 
             self.ent_cpf.insert(0, valores[0])
             self.ent_nome.insert(0, valores[1])
@@ -141,7 +164,7 @@ class JanelaTecnico(Janela):
 
         def botao_pesquisar():
             if grupo_rb.get() == 0:
-                self.controller.preencher_treeview(tv_tecnico)
+                self.controller.preencher_treeview(self.tv_tecnico)
                 self.ent_pesquisar.delete(0, END)
                 self.ent_pesquisar.focus()
             elif grupo_rb.get() == 1:
@@ -149,10 +172,10 @@ class JanelaTecnico(Janela):
                     cpf_informado = int(self.ent_pesquisar.get())
                     tecnico_cpf = self.controller.pesquisar_tecnico_cpf(
                         cpf_informado)
-                    tv_tecnico.delete(*tv_tecnico.get_children())
+                    self.tv_tecnico.delete(*self.tv_tecnico.get_children())
                     for (cpf, nome, telefone, turno, equipe) in tecnico_cpf:
-                        tv_tecnico.insert('', 'end', values=(cpf, nome, telefone,
-                                                             turno, equipe))
+                        self.tv_tecnico.insert('', 'end', values=(cpf, nome, telefone,
+                                                                  turno, equipe))
                 except (Exception):
                     messagebox.showinfo(title='Tecnico não encontrado',
                                         message='CPF não encontadro. '
@@ -163,11 +186,12 @@ class JanelaTecnico(Janela):
             else:
                 try:
                     nome_informado = self.ent_pesquisar.get()
-                    tecnico_nome = self.controller.pesquisar_tecnico_nome(nome_informado)
-                    tv_tecnico.delete(*tv_tecnico.get_children())
+                    tecnico_nome = self.controller.pesquisar_tecnico_nome(
+                        nome_informado)
+                    self.tv_tecnico.delete(*self.tv_tecnico.get_children())
                     for (cpf, nome, telefone, turno, equipe) in tecnico_nome:
-                        tv_tecnico.insert('', 'end', values=(cpf, nome, telefone,
-                                                             turno, equipe))
+                        self.tv_tecnico.insert('', 'end', values=(cpf, nome, telefone,
+                                                                  turno, equipe))
                 except (Exception):
                     messagebox.showinfo(title='Tecnico não encontrado',
                                         message='Nome não encontadro!!!')
@@ -220,29 +244,31 @@ class JanelaTecnico(Janela):
                             relief='solid', bg=BRANCO, border=1)
         fr_treeview.grid(column=0, row=1, pady=5)
 
-        tv_tecnico = ttk.Treeview(fr_treeview, columns=('CPF', 'NOME', 'TELEFONE',
-                                                        'TURNO', 'EQUIPE'),
-                                  show='headings')
+        self.tv_tecnico = ttk.Treeview(fr_treeview, columns=('CPF', 'NOME', 'TELEFONE',
+                                                             'TURNO', 'EQUIPE'),
+                                       show='headings')
 
-        tv_tecnico.column('CPF', minwidth=0, width=100)
-        tv_tecnico.column('NOME', minwidth=0, width=220)
-        tv_tecnico.column('TELEFONE', minwidth=0, width=95)
-        tv_tecnico.column('TURNO', minwidth=0, width=60)
-        tv_tecnico.column('EQUIPE', minwidth=0, width=50)
+        self.tv_tecnico.column('CPF', minwidth=0, width=100)
+        self.tv_tecnico.column('NOME', minwidth=0, width=220)
+        self.tv_tecnico.column('TELEFONE', minwidth=0, width=95)
+        self.tv_tecnico.column('TURNO', minwidth=0, width=60)
+        self.tv_tecnico.column('EQUIPE', minwidth=0, width=50)
 
-        tv_tecnico.heading('CPF', text='CPF')
-        tv_tecnico.heading('NOME', text='NOME')
-        tv_tecnico.heading('TELEFONE', text='TELEFONE')
-        tv_tecnico.heading('TURNO', text='TURNO')
-        tv_tecnico.heading('EQUIPE', text='EQUIPE')
+        self.tv_tecnico.heading('CPF', text='CPF')
+        self.tv_tecnico.heading('NOME', text='NOME')
+        self.tv_tecnico.heading('TELEFONE', text='TELEFONE')
+        self.tv_tecnico.heading('TURNO', text='TURNO')
+        self.tv_tecnico.heading('EQUIPE', text='EQUIPE')
 
-        tv_tecnico.place(relx=0.01, rely=0.01, relwidth=0.96, relheight=0.96)
-        tv_tecnico.bind('<<TreeviewSelect>>', apresentar_dados_selecionados)
+        self.tv_tecnico.place(relx=0.01, rely=0.01,
+                              relwidth=0.96, relheight=0.96)
+        self.tv_tecnico.bind('<<TreeviewSelect>>',
+                             apresentar_dados_selecionados)
 
         sbv = Scrollbar(fr_treeview, orient='vertical',
-                        command=tv_tecnico.yview)
-        tv_tecnico.configure(yscrollcommand=sbv.set)
+                        command=self.tv_tecnico.yview)
+        self.tv_tecnico.configure(yscrollcommand=sbv.set)
 
         sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.96)
 
-        self.controller.preencher_treeview(tv_tecnico)
+        self.controller.preencher_treeview(self.tv_tecnico)
