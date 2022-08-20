@@ -7,7 +7,7 @@ from tkinter.constants import NW, END
 
 
 class JanelaTecnico(Janela):
-    """Classe da Jenela Principal Tecnico
+    """Classe da Jenela Tecnico
     """
 
     def __init__(self, janela_principal):
