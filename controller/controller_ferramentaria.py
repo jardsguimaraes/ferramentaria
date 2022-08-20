@@ -12,3 +12,11 @@ class ControllerFerramentaria:
         for (cpf, nome, telefone, turno, equipe) in tecnicos_cadastrados:
             treeview.insert('', 'end', values=(cpf, nome, telefone, turno,
                                                equipe))
+
+    def pesquisar_tecnico_cpf(self, cpf):
+        return self.db.pesquisar_tecnico_cpf(cpf)
+
+    def pesquisar_tecnico_nome(self, nome):
+        return self.db.pesquisar_tecnico_nome(nome)
+    
+
