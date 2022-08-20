@@ -180,23 +180,23 @@ class JanelaTecnico(Janela):
 
         # Botão Inserir
         self.btn_inserir = Button(self.frame_baixo, text='Inserir', width=8,
-                                  font='Ivy 13 bold', bg=AZUL, fg=BRANCO,
-                                  relief='raised',
-                                  overrelief='ridge', command=botao_inserir)
+                                  font='Ivy 10 bold', bg=AZUL, fg=BRANCO,
+                                  relief='raised', overrelief='ridge',
+                                  command=botao_inserir)
         self.btn_inserir.place(x=15, y=300)
 
         # Botão Atualizar
         self.btn_atualizar = Button(self.frame_baixo, text='Atualizar', width=8,
-                                    font='Ivy 13 bold', bg=VERDE, fg=BRANCO,
-                                    relief='raised',
-                                    overrelief='ridge', command=botao_atualizar)
+                                    font='Ivy 10 bold', bg=VERDE, fg=BRANCO,
+                                    relief='raised', overrelief='ridge',
+                                    command=botao_atualizar)
         self.btn_atualizar.place(x=115, y=300)
 
         # Botão Deletar
         self.btn_deletar = Button(self.frame_baixo, text='Deletar', width=8,
-                                  font='Ivy 13 bold', bg=VERMELHO, fg=BRANCO,
-                                  relief='raised',
-                                  overrelief='ridge', command=botao_deletar)
+                                  font='Ivy 10 bold', bg=VERMELHO, fg=BRANCO,
+                                  relief='raised', overrelief='ridge',
+                                  command=botao_deletar)
         self.btn_deletar.place(x=215, y=300)
 
     def carregar_frame_direita(self):

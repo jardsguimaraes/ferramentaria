@@ -1,5 +1,6 @@
 from constantes.constantes import BRANCO
 from view.janela_tecnico import JanelaTecnico
+from view.janela_ferramenta import JanelaFerramenta
 from view.janela_sobre import JanelaSobre
 from tkinter import Tk, Menu, Label, PhotoImage
 
@@ -29,7 +30,8 @@ class JanelaPrincipal:
     def janela_ferramenta(self):
         """Chama a Janela Ferramenta
         """
-        pass
+        self.limpar_logo()
+        JanelaFerramenta(self.janela)
 
     def janela_reserva(self):
         """Chama a Janela Reserva
