@@ -4,6 +4,7 @@ from controller.controller_ferramentaria import ControllerFerramentaria
 from tkinter import Button, Frame, IntVar, Label, LabelFrame, Entry, Scrollbar
 from tkinter import Radiobutton, messagebox, ttk
 from tkinter.constants import END, NW, N
+from tkcalendar import DateEntry
 
 
 class JanelaFerramenta(Janela):
@@ -108,6 +109,10 @@ class JanelaFerramenta(Janela):
                               font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
                               relief='flat')
         lb_manutencao.place(x=10, y=260)
+        self.ent_manutencao = DateEntry(self.frame_baixo, width=15, background=AZUL,
+                               foreground=BRANCO, borderwidth=2, year=2022,
+                               locate='pt_br')
+        self.ent_manutencao.place(x=15, y=285)
 
         # Tipo
         lb_tipo = Label(self.frame_baixo, text='Tipo: ', anchor=N,
