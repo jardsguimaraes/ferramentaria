@@ -86,7 +86,20 @@ class JanelaTecnico(Janela):
 
 
         def botao_deletar():
-            pass
+            if self.valida_formulario():
+                parametros = self.pega_formulario()
+                self.controller.deletar_tecnico(*parametros)
+                self.tv_tecnico.delete(*self.tv_tecnico.get_children())
+                self.controller.preencher_treeview(self.tv_tecnico)
+                self.limpar_campos()
+                messagebox.showinfo(title='Deletado!!!',
+                                    message='Tecnico Deletado com Sucesso')
+                self.ent_cpf.focus()
+            else:
+                messagebox.showerror(title='Error', message='Todos os campos '
+                                                            'devem estar '
+                                                            'preeenchidos!!!')
+
 
         # CPF
         lb_cpf = Label(self.frame_baixo, text='CPF: ', anchor=NW,

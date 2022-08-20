@@ -1,5 +1,6 @@
 from model.tecnico import Tecnico
 from database.database import Database
+from tkinter import messagebox
 
 
 class ControllerFerramentaria:
@@ -28,7 +29,15 @@ class ControllerFerramentaria:
             tecnico = Tecnico(*args)
             tecnico.atualizar(tecnico)
         else:
-            print('tecnico_vazio')
+            messagebox.showerror(title='Error', message='Tecnico não encontrado')
+
+    def deletar_tecnico(self, *args):
+        if self.db.pesquisar_tecnico_cpf(args[0]):            
+            tecnico = Tecnico(*args)
+            tecnico.deletar(tecnico)
+        else:
+            messagebox.showerror(title='Error', message='Tecnico não encontrado')
+
 
         
 

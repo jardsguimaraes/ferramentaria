@@ -63,5 +63,5 @@ class Tecnico:
                       tecnico.equipe, tecnico.cpf)
         self.db.atualizar_tecnico(*parametros)
 
-    def deletar(self):
-        pass
+    def deletar(self, tecnico):
+        self.db.deletar_tecnico(tecnico.cpf)
