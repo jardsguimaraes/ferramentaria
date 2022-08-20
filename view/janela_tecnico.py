@@ -61,6 +61,7 @@ class JanelaTecnico(Janela):
                 self.limpar_campos()
                 messagebox.showinfo(title='Cadastrado!!!',
                                     message='Tecnico Cadastrado com Sucesso')
+                self.ent_cpf.focus()
             else:
                 messagebox.showerror(title='Error', message='Todos os campos '
                                                             'devem estar '
@@ -68,7 +69,21 @@ class JanelaTecnico(Janela):
                 self.ent_cpf.focus()
 
         def botao_atualizar():
-            pass
+            if self.valida_formulario():
+                parametros = self.pega_formulario()
+                self.controller.atualizar_tecnico(*parametros)
+                self.tv_tecnico.delete(*self.tv_tecnico.get_children())
+                self.controller.preencher_treeview(self.tv_tecnico)
+                self.limpar_campos()
+                messagebox.showinfo(title='Atualizado!!!',
+                                    message='Tecnico Atualizado com Sucesso')
+                self.ent_cpf.focus()
+            else:
+                messagebox.showerror(title='Error', message='Todos os campos '
+                                                            'devem estar '
+                                                            'preeenchidos!!!')
+                self.ent_cpf.focus()
+
 
         def botao_deletar():
             pass
@@ -151,12 +166,12 @@ class JanelaTecnico(Janela):
     def carregar_frame_direita(self):
 
         def apresentar_dados_selecionados(event):
-            tecnico_selecionado = self.tv_tecnico.selection()[0]
+            tecnico_selecionado = self.tv_tecnico.selection()
             valores = self.tv_tecnico.item(tecnico_selecionado, 'values')
 
             self.limpar_campos()
 
-            self.ent_cpf.insert(0, valores[0])
+            self.ent_cpf.insert(0,valores[0])
             self.ent_nome.insert(0, valores[1])
             self.ent_telefone.insert(0, valores[2])
             self.cbx_turno.set(valores[3])

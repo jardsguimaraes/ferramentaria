@@ -22,6 +22,14 @@ class ControllerFerramentaria:
     def inserir_tecnico(self, *args):
         tecnico = Tecnico(*args)
         tecnico.inserir(tecnico)
+
+    def atualizar_tecnico(self, *args):
+        if self.db.pesquisar_tecnico_cpf(args[0]):
+            tecnico = Tecnico(*args)
+            tecnico.atualizar(tecnico)
+        else:
+            print('tecnico_vazio')
+
         
 
     

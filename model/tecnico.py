@@ -58,8 +58,10 @@ class Tecnico:
                       tecnico.turno, tecnico.equipe)
         self.db.inserir_tecnico(*parametros)
 
-    def atualizar(self):
-        pass
+    def atualizar(self, tecnico):
+        parametros = (tecnico.nome, tecnico.telefone, tecnico.turno,
+                      tecnico.equipe, tecnico.cpf)
+        self.db.atualizar_tecnico(*parametros)
 
     def deletar(self):
         pass
