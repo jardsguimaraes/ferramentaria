@@ -187,24 +187,26 @@ class JanelaFerramenta(Janela):
             self.ent_voltagem.insert(0, valores[3])
             self.ent_serial.insert(0, valores[4])
             self.ent_tamanho.insert(0, valores[5])
-            self.ent_manutencao.set_date('01/01/2050')
-            # Terminar o preenchimento do treeview ferramenta
-            # self.ent_manutencao.insert(0, valores[6])
             self.ent_manutencao.set_date(valores[6])
             self.ent_medida.insert(0, valores[7])
             self.ent_tipo.insert(0, valores[8])
             self.ent_material.insert(0, valores[9])
 
+        def limpar_entry_pesquisar():
+            """Limpa o Campo de Pesquisa
+            """
+            self.ent_pesquisar.delete(0, END)
+            self.ent_pesquisar.focus()
+        
         def botao_pesquisar():
             """Verifica qual Opção do RadioButton esta selecionada e 
                chama a função correta
             """
-            if grupo_rb == 0:
+            if grupo_rb.get() == 0:
                 self.controller.preencher_treeview(
                     self.tv_ferramenta, 'ferramenta')
-                self.ent_pesquisar.delete(0, END)
-                self.ent_pesquisar.focus()
-            elif grupo_rb == 1:
+                limpar_entry_pesquisar()
+            elif grupo_rb.get() == 1:
                 try:
                     id_informado = int(self.ent_pesquisar.get())
                     ferramenta_id = self.controller.pesquisar_ferramenta_id(
@@ -225,12 +227,6 @@ class JanelaFerramenta(Janela):
                 finally:
                     self.ent_pesquisar.delete(0, END)
                     self.ent_pesquisar.focus()
-
-        def limpar_entry_pesquisar():
-            """Limpa o Campo de Pesquisa
-            """
-            self.ent_pesquisar.delete(0, END)
-            self.ent_pesquisar.focus()
 
         # Frame Pesquisar
         fr_pesquisar = LabelFrame(self.frame_direita, text='Pesquisar',

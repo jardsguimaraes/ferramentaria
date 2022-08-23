@@ -30,12 +30,13 @@ class ControllerFerramentaria:
 
         if nome_tela == 'tecnico':
             tecnicos_cadastrados = self.db.pesquisar_tecnicos()
-
+            treeview.delete(*treeview.get_children())
             for (cpf, nome, telefone, turno, equipe) in tecnicos_cadastrados:
                 treeview.insert('', 'end', values=(cpf, nome, telefone, turno,
                                                    equipe))
         elif nome_tela == 'ferramenta':
             ferramentas_cadastradas = self.db.pesquisar_ferramenta()
+            treeview.delete(*treeview.get_children())
             for (id, descricao, fabricante, voltagem, serial, tamanho,
                  manutencao, medida, tipo, material) in ferramentas_cadastradas:
                 manutencao = self.tratar_data(manutencao, 'ferramenta')
