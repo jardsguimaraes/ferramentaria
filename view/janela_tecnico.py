@@ -105,7 +105,6 @@ class JanelaTecnico(Janela):
                                                             'preeenchidos!!!')
                 self.ent_cpf.focus()
 
-
         def botao_deletar():
             """Deleta um Tecnico
             """
@@ -122,7 +121,6 @@ class JanelaTecnico(Janela):
                 messagebox.showerror(title='Error', message='Todos os campos '
                                                             'devem estar '
                                                             'preeenchidos!!!')
-
 
         # CPF
         lb_cpf = Label(self.frame_baixo, text='CPF: ', anchor=NW,
@@ -214,7 +212,7 @@ class JanelaTecnico(Janela):
 
             self.limpar_campos()
 
-            self.ent_cpf.insert(0,valores[0])
+            self.ent_cpf.insert(0, valores[0])
             self.ent_nome.insert(0, valores[1])
             self.ent_telefone.insert(0, valores[2])
             self.cbx_turno.set(valores[3])
@@ -231,15 +229,11 @@ class JanelaTecnico(Janela):
             elif grupo_rb.get() == 1:
                 try:
                     cpf_informado = int(self.ent_pesquisar.get())
-                    tecnico_cpf = self.controller.pesquisar_tecnico_cpf(
-                        cpf_informado)
-                    self.tv_tecnico.delete(*self.tv_tecnico.get_children())
-                    for (cpf, nome, telefone, turno, equipe) in tecnico_cpf:
-                        self.tv_tecnico.insert('', 'end', values=(cpf, nome, telefone,
-                                                                  turno, equipe))
+                    self.controller.pesquisar_tecnico_cpf(
+                        cpf_informado, self.tv_tecnico)                    
                 except (Exception):
                     messagebox.showinfo(title='Tecnico não encontrado',
-                                        message='CPF não encontadro. '
+                                        message='CPF não encontrado. '
                                         'Digite apenas números!!!')
                 finally:
                     self.ent_pesquisar.delete(0, END)
@@ -248,11 +242,7 @@ class JanelaTecnico(Janela):
                 try:
                     nome_informado = self.ent_pesquisar.get()
                     tecnico_nome = self.controller.pesquisar_tecnico_nome(
-                        nome_informado)
-                    self.tv_tecnico.delete(*self.tv_tecnico.get_children())
-                    for (cpf, nome, telefone, turno, equipe) in tecnico_nome:
-                        self.tv_tecnico.insert('', 'end', values=(cpf, nome, telefone,
-                                                                  turno, equipe))
+                        nome_informado, self.tv_tecnico)                    
                 except (Exception):
                     messagebox.showinfo(title='Tecnico não encontrado',
                                         message='Nome não encontadro!!!')

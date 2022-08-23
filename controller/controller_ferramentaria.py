@@ -1,3 +1,5 @@
+from datetime import datetime
+from optparse import Values
 from model.tecnico import Tecnico
 from database.database import Database
 from tkinter import messagebox
@@ -12,6 +14,12 @@ class ControllerFerramentaria:
     """
 
     db = Database()
+
+    def tratar_data(self, data, nome_janela):
+        if nome_janela == 'ferramenta':
+            data_formatada = str(data).split('-')
+            data_formatada = f'{data_formatada[2]}/{data_formatada[1]}/{data_formatada[0]}'
+            return str(data_formatada)
 
     def preencher_treeview(self, treeview, nome_tela):
         """Preenche o Treeview
@@ -28,39 +36,43 @@ class ControllerFerramentaria:
                                                    equipe))
         elif nome_tela == 'ferramenta':
             ferramentas_cadastradas = self.db.pesquisar_ferramenta()
-            for (ID, DESCRICAO, FABRICANTE, VOLTAGEM, SERIAL, TAMANHO,
-                 MANUTENCAO, MEDIDA, TIPO, MATERIAL) in ferramentas_cadastradas:
-                treeview.insert('', 'end', values=('ID', 'DESCRICAO', 'FABRICANTE',
-                                                   'VOLTAGEM', 'SERIAL', 'TAMANHO',
-                                                   'MANUTENCAO', 'MEDIDA', 'TIPO',
-                                                   'MATERIAL'))
-
+            for (id, descricao, fabricante, voltagem, serial, tamanho,
+                 manutencao, medida, tipo, material) in ferramentas_cadastradas:
+                manutencao = self.tratar_data(manutencao, 'ferramenta')
+                treeview.insert('', 'end', values=(id, descricao, fabricante,
+                                                   voltagem, serial, tamanho,
+                                                   manutencao, medida, tipo,
+                                                   material))
         elif nome_tela == 'reserva':
             pass
 
-    def pesquisar_tecnico_cpf(self, cpf):
+    def pesquisar_tecnico_cpf(self, cpf, treeview):
         """Chama o metodo do banco de dados que retorna o tecnico
-           como CPF informado
+           com o CPF informado
 
         Args:
             cpf (str): CPF a ser consultado
-
-        Returns:
-            Tecnico: Retorna o Tecnico com o campo CPF com apenas números
         """
-        return self.db.pesquisar_tecnico_cpf(cpf)
+        tecnico_cpf = self.db.pesquisar_tecnico_cpf(cpf)
+        treeview.delete(*treeview.get_children())
 
-    def pesquisar_tecnico_nome(self, nome):
+        for (cpf, nome, telefone, turno, equipe) in tecnico_cpf:
+            treeview.insert('', 'end', values=(cpf, nome, telefone, turno,
+                                               equipe))
+
+    def pesquisar_tecnico_nome(self, nome, treeview):
         """Chama o metodo do banco de dados que retorna o tecnico
            como nome informado
 
         Args:
             nome (str): Nome a ser consultado
-
-        Returns:
-            Tecnico: Retorna o Tecnico com o Informado
         """
-        return self.db.pesquisar_tecnico_nome(nome)
+        tecnico_nome = self.db.pesquisar_tecnico_nome(nome)
+        treeview.delete(*treeview.get_children())
+
+        for (cpf, nome, telefone, turno, equipe) in tecnico_nome:
+            treeview.insert('', 'end', values=(cpf, nome, telefone,
+                                               turno, equipe))
 
     def inserir_tecnico(self, *args):
         """Chama o metodo que Insere um Tecnico no banco de dados 
@@ -89,3 +101,21 @@ class ControllerFerramentaria:
         else:
             messagebox.showerror(
                 title='Error', message='Tecnico não encontrado')
+
+    def pesquisar_ferramenta_id(self, id):
+        """Chama o metodo do banco de dados que retorna a ferramenta
+           com o ID informado
+
+        Args:
+            id (int): id a ser consultado
+
+        Returns:
+            list: Retorna a Ferramenta com o id informado
+        """
+        return self.db.pesquisar_ferramenta_id(id)
+
+    def pespesquisar_ferramenta_descricao(self):
+        pass
+
+    def pespesquisar_ferramenta_fabricante(self):
+        pass

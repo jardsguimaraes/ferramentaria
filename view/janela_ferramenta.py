@@ -1,3 +1,4 @@
+from ast import Delete
 from view.janela import Janela
 from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERDE, VERMELHO, PRETO
 from controller.controller_ferramentaria import ControllerFerramentaria
@@ -13,10 +14,22 @@ class JanelaFerramenta(Janela):
 
     def __init__(self, janela_principal):
         super().__init__(janela_principal)
+        self.controller = ControllerFerramentaria()
         self.carrega_frame_cima()
         self.carrega_frame_baixo()
         self.carrega_frame_direita()
         self.ent_id.focus()
+
+    def limpar_campos(self):
+        self.ent_id.delete(0, END)
+        self.ent_descricao.delete(0, END)
+        self.ent_fabricante.delete(0, END)
+        self.ent_voltagem.delete(0, END)
+        self.ent_serial.delete(0, END)
+        self.ent_tamanho.delete(0, END)
+        self.ent_medida.delete(0, END)
+        self.ent_tipo.delete(0, END)
+        self.ent_material.delete(0, END)
 
     def carrega_frame_cima(self):
         """Carrega os componentes do Frame Titulo
@@ -55,9 +68,9 @@ class JanelaFerramenta(Janela):
                              font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
                              relief='flat')
         lb_descricao.place(x=10, y=40)
-        self.ent_descricaoricao = Entry(self.frame_baixo, width=45, justify='left',
+        self.ent_descricao = Entry(self.frame_baixo, width=45, justify='left',
                                         relief='solid')
-        self.ent_descricaoricao.place(x=15, y=65)
+        self.ent_descricao.place(x=15, y=65)
 
         # Fabricante
         lb_fabricante = Label(self.frame_baixo, text='Fabricante: ', anchor=N,
@@ -110,8 +123,8 @@ class JanelaFerramenta(Janela):
                               relief='flat')
         lb_manutencao.place(x=10, y=260)
         self.ent_manutencao = DateEntry(self.frame_baixo, width=15, background=AZUL,
-                               foreground=BRANCO, borderwidth=2, year=2022,
-                               locate='pt_br')
+                                        foreground=BRANCO, borderwidth=2, year=2022,
+                                        locate='pt_br')
         self.ent_manutencao.place(x=15, y=285)
 
         # Tipo
@@ -123,26 +136,37 @@ class JanelaFerramenta(Janela):
                               relief='solid')
         self.ent_tipo.place(x=15, y=340)
 
+        # Material
+        lb_material = Label(self.frame_baixo, text='Material: ', anchor=N,
+                        font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
+                        relief='flat')
+        lb_material.place(x=10, y=375)
+        self.ent_material = Entry(self.frame_baixo, width=45, justify='left',
+                              relief='solid')
+        self.ent_material.place(x=15, y=400)
+
+
+
         # Botão Inserir
         btn_inserir = Button(self.frame_baixo, text='Inserir', width=8,
                              font=('Ivy 10 bold'), bg=AZUL, fg=BRANCO,
                              relief='raised', overrelief='ridge',
                              command=botao_inserir)
-        btn_inserir.place(x=15, y=385)
+        btn_inserir.place(x=15, y=445)
 
         # Botão Atualizar
         btn_atualizar = Button(self.frame_baixo, text='Atualizar', width=8,
                                font=('Ivy 10 bold'), bg=VERDE, fg=BRANCO,
                                relief='raised', overrelief='ridge',
                                command=botao_atualizar)
-        btn_atualizar.place(x=115, y=385)
+        btn_atualizar.place(x=115, y=445)
 
         # Botão Deletar
         btn_deletar = Button(self.frame_baixo, text='Deletar', width=8,
                              font=('Ivy 10 bold'), bg=VERMELHO, fg=BRANCO,
                              relief='raised', overrelief='ridge',
                              command=botao_deletar)
-        btn_deletar.place(x=215, y=385)
+        btn_deletar.place(x=215, y=445)
 
     def carrega_frame_direita(self):
         """Carrega os componentes do Frame da Direita
@@ -154,19 +178,61 @@ class JanelaFerramenta(Janela):
             Args:
                 event (tuple): Tupla com a Ferramenta selecionada
             """
+            ferramenta_selecionada = self.tv_ferramenta.selection()
+            valores = self.tv_ferramenta.item(ferramenta_selecionada, 'values')
 
-            pass
+            self.limpar_campos()
+
+            self.ent_id.insert(0, valores[0])
+            self.ent_descricao.insert(0, valores[1])
+            self.ent_fabricante.insert(0, valores[2])
+            self.ent_voltagem.insert(0, valores[3])
+            self.ent_serial.insert(0, valores[4])
+            self.ent_tamanho.insert(0, valores[5])
+            self.ent_manutencao.set_date('01/01/2050')
+            # Terminar o preenchimento do treeview ferramenta
+            # self.ent_manutencao.insert(0, valores[6])
+            self.ent_manutencao.set_date(valores[6])
+            self.ent_medida.insert(0, valores[7])
+            self.ent_tipo.insert(0, valores[8])
+            self.ent_material.insert(0, valores[9])
 
         def botao_pesquisar():
             """Verifica qual Opção do RadioButton esta selecionada e 
                chama a função correta
             """
-            pass
+            if grupo_rb == 0:
+                self.controller.preencher_treeview(
+                    self.tv_ferramenta, 'ferramenta')
+                self.ent_pesquisar.delete(0, END)
+                self.ent_pesquisar.focus()
+            elif grupo_rb == 1:
+                try:
+                    id_informado = int(self.ent_pesquisar.get())
+                    ferramenta_id = self.controller.pesquisar_ferramenta_id(
+                        id_informado)
+                    self.tv_ferramenta.delete(*self.tv_ferramenta.get_children())
+                    for (ID, DESCRICAO, FABRICANTE, VOLTAGEM, SERIAL, TAMANHO,
+                        MANUTENCAO, MEDIDA, TIPO, MATERIAL) in ferramenta_id:
+                        self.tv_ferramenta.insert('', 'end', values=(ID, DESCRICAO,
+                                                                    FABRICANTE, VOLTAGEM,
+                                                                    SERIAL, TAMANHO,
+                                                                    MANUTENCAO, MEDIDA,
+                                                                    TIPO, MATERIAL))
+                except (Exception):
+                    messagebox.showinfo(title='Ferramenta não encontrada',
+                                        message='Ferramenta não encontradaF. '
+                                        'Digite apenas números!!!')
+                finally:
+                    self.ent_pesquisar.delete(0, END)
+                    self.ent_pesquisar.focus()
 
         def limpar_entry_pesquisar():
             """Limpa o Campo de Pesquisa
             """
-            pass
+            self.ent_pesquisar.delete(0, END)
+            self.ent_pesquisar.focus()
+
 
         # Frame Pesquisar
         fr_pesquisar = LabelFrame(self.frame_direita, text='Pesquisar',
@@ -186,18 +252,18 @@ class JanelaFerramenta(Janela):
         rb_todos.place(x=5, y=2)
 
         rb_id = Radiobutton(fr_pesquisar, text='ID', variable=grupo_rb,
-                             value=1, bg=BRANCO,
-                             command=limpar_entry_pesquisar)
+                            value=1, bg=BRANCO,
+                            command=limpar_entry_pesquisar)
         rb_id.place(x=70, y=2)
 
         rb_descricao = Radiobutton(fr_pesquisar, text='Descricão', variable=grupo_rb,
-                              value=2, bg=BRANCO,
-                              command=limpar_entry_pesquisar)
+                                   value=2, bg=BRANCO,
+                                   command=limpar_entry_pesquisar)
         rb_descricao.place(x=115, y=2)
 
         rb_fabricante = Radiobutton(fr_pesquisar, text='Fabricante', variable=grupo_rb,
-                              value=3, bg=BRANCO,
-                              command=limpar_entry_pesquisar)
+                                    value=3, bg=BRANCO,
+                                    command=limpar_entry_pesquisar)
         rb_fabricante.place(x=200, y=2)
 
         rb_todos.select()
@@ -214,41 +280,43 @@ class JanelaFerramenta(Janela):
                             relief='solid', bg=BRANCO, border=1)
         fr_treeview.grid(column=0, row=1, pady=5)
 
-        self.tv_tecnico = ttk.Treeview(fr_treeview, columns=('ID', 'DESCRICAO', 'FABRICANTE',
-                                                             'VOLTAGEM', 'SERIAL', 'TAMANHO',
-                                                             'MANUTENCAO', 'MEDIDA', 'TIPO',
-                                                             'MATERIAL'),
-                                       show='headings')
+        self.tv_ferramenta = ttk.Treeview(fr_treeview, columns=('ID', 'DESCRICAO', 'FABRICANTE',
+                                                                'VOLTAGEM', 'SERIAL', 'TAMANHO',
+                                                                'MANUTENCAO', 'MEDIDA', 'TIPO',
+                                                                'MATERIAL'),
+                                          show='headings')
 
-        self.tv_tecnico.column('ID', minwidth=0, width=30)
-        self.tv_tecnico.column('DESCRICAO', minwidth=0, width=220)
-        self.tv_tecnico.column('FABRICANTE', minwidth=0, width=95)
-        self.tv_tecnico.column('VOLTAGEM', minwidth=0, width=15)
-        self.tv_tecnico.column('SERIAL', minwidth=0, width=50)
-        self.tv_tecnico.column('TAMANHO', minwidth=0, width=50)
-        self.tv_tecnico.column('MANUTENCAO', minwidth=0, width=50)
-        self.tv_tecnico.column('MEDIDA', minwidth=0, width=50)
-        self.tv_tecnico.column('TIPO', minwidth=0, width=50)
-        self.tv_tecnico.column('MATERIAL', minwidth=0, width=50)
+        self.tv_ferramenta.column('ID', minwidth=0, width=30)
+        self.tv_ferramenta.column('DESCRICAO', minwidth=0, width=220)
+        self.tv_ferramenta.column('FABRICANTE', minwidth=0, width=95)
+        self.tv_ferramenta.column('VOLTAGEM', minwidth=0, width=15)
+        self.tv_ferramenta.column('SERIAL', minwidth=0, width=50)
+        self.tv_ferramenta.column('TAMANHO', minwidth=0, width=50)
+        self.tv_ferramenta.column('MANUTENCAO', minwidth=0, width=50)
+        self.tv_ferramenta.column('MEDIDA', minwidth=0, width=50)
+        self.tv_ferramenta.column('TIPO', minwidth=0, width=50)
+        self.tv_ferramenta.column('MATERIAL', minwidth=0, width=50)
 
-        self.tv_tecnico.heading('ID', text='ID')
-        self.tv_tecnico.heading('DESCRICAO', text='DESCRICAO')
-        self.tv_tecnico.heading('FABRICANTE', text='FABRICANTE')
-        self.tv_tecnico.heading('VOLTAGEM', text='VOLTAGEM')
-        self.tv_tecnico.heading('SERIAL', text='SERIAL')
-        self.tv_tecnico.heading('TAMANHO', text='TAMANHO')
-        self.tv_tecnico.heading('MANUTENCAO', text='MANUTENCAO')
-        self.tv_tecnico.heading('MEDIDA', text='MEDIDA')
-        self.tv_tecnico.heading('TIPO', text='TIPO')
-        self.tv_tecnico.heading('MATERIAL', text='MATERIAL')
+        self.tv_ferramenta.heading('ID', text='ID')
+        self.tv_ferramenta.heading('DESCRICAO', text='DESCRICAO')
+        self.tv_ferramenta.heading('FABRICANTE', text='FABRICANTE')
+        self.tv_ferramenta.heading('VOLTAGEM', text='VOLTAGEM')
+        self.tv_ferramenta.heading('SERIAL', text='SERIAL')
+        self.tv_ferramenta.heading('TAMANHO', text='TAMANHO')
+        self.tv_ferramenta.heading('MANUTENCAO', text='MANUTENCAO')
+        self.tv_ferramenta.heading('MEDIDA', text='MEDIDA')
+        self.tv_ferramenta.heading('TIPO', text='TIPO')
+        self.tv_ferramenta.heading('MATERIAL', text='MATERIAL')
 
-        self.tv_tecnico.place(relx=0.01, rely=0.01,
-                              relwidth=0.96, relheight=0.96)
-        self.tv_tecnico.bind('<<TreeviewSelect>>',
-                             apresentar_dados_selecionados)
+        self.tv_ferramenta.place(relx=0.01, rely=0.01,
+                                 relwidth=0.96, relheight=0.96)
+        self.tv_ferramenta.bind('<<TreeviewSelect>>',
+                                apresentar_dados_selecionados)
 
         sbv = Scrollbar(fr_treeview, orient='vertical',
-                        command=self.tv_tecnico.yview)
-        self.tv_tecnico.configure(yscrollcommand=sbv.set)
+                        command=self.tv_ferramenta.yview)
+        self.tv_ferramenta.configure(yscrollcommand=sbv.set)
 
         sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.96)
+
+        self.controller.preencher_treeview(self.tv_ferramenta, 'ferramenta')
