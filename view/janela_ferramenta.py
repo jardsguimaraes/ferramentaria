@@ -209,24 +209,42 @@ class JanelaFerramenta(Janela):
             elif grupo_rb.get() == 1:
                 try:
                     id_informado = int(self.ent_pesquisar.get())
-                    ferramenta_id = self.controller.pesquisar_ferramenta_id(
-                        id_informado)
-                    self.tv_ferramenta.delete(
-                        *self.tv_ferramenta.get_children())
-                    for (ID, DESCRICAO, FABRICANTE, VOLTAGEM, SERIAL, TAMANHO,
-                         MANUTENCAO, MEDIDA, TIPO, MATERIAL) in ferramenta_id:
-                        self.tv_ferramenta.insert('', 'end', values=(ID, DESCRICAO,
-                                                                     FABRICANTE, VOLTAGEM,
-                                                                     SERIAL, TAMANHO,
-                                                                     MANUTENCAO, MEDIDA,
-                                                                     TIPO, MATERIAL))
+                    self.controller.pesquisar_ferramenta_id(
+                        id_informado, self.tv_ferramenta)                    
                 except (Exception):
                     messagebox.showinfo(title='Ferramenta não encontrada',
-                                        message='Ferramenta não encontradaF. '
+                                        message='Ferramenta não encontrada. '
                                         'Digite apenas números!!!')
                 finally:
                     self.ent_pesquisar.delete(0, END)
                     self.ent_pesquisar.focus()
+            elif grupo_rb.get() == 2:
+                try:
+                    descricao_informada = self.ent_pesquisar.get()
+                    self.controller.pespesquisar_ferramenta_descricao(
+                        descricao_informada, self.tv_ferramenta)                    
+                except (Exception):
+                    messagebox.showinfo(title='Ferramenta não encontrada',
+                                        message='Ferramenta não encontrada. '
+                                        'Valide o nome da Ferramenta!!!')
+                finally:
+                    self.ent_pesquisar.delete(0, END)
+                    self.ent_pesquisar.focus()
+            elif grupo_rb.get() == 3:
+                try:
+                    descricao_informada = self.ent_pesquisar.get()
+                    self.controller.pespesquisar_ferramenta_fabricante(
+                        descricao_informada, self.tv_ferramenta)                    
+                except (Exception):
+                    messagebox.showinfo(title='Ferramenta não encontrada',
+                                        message='Ferramenta não encontrada. '
+                                        'Valide o nome do Frabricante!!!')
+                finally:
+                    self.ent_pesquisar.delete(0, END)
+                    self.ent_pesquisar.focus()
+        
+
+
 
         # Frame Pesquisar
         fr_pesquisar = LabelFrame(self.frame_direita, text='Pesquisar',

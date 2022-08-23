@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 
 class ControllerFerramentaria:
-    """Calsse que faz a interação entre as telas e as regras de 
+    """Calsse que faz a interação entre as telas e as regras de
        negocio doprograma
 
     Returns:
@@ -25,7 +25,7 @@ class ControllerFerramentaria:
         """Preenche o Treeview
 
         Args:
-            treeview (Treeview): Treview a ser preenchido 
+            treeview (Treeview): Treview a ser preenchido
         """
 
         if nome_tela == 'tecnico':
@@ -76,14 +76,14 @@ class ControllerFerramentaria:
                                                turno, equipe))
 
     def inserir_tecnico(self, *args):
-        """Chama o metodo que Insere um Tecnico no banco de dados 
+        """Chama o metodo que Insere um Tecnico no banco de dados
         """
         tecnico = Tecnico(*args)
         tecnico.inserir(tecnico)
 
     def atualizar_tecnico(self, *args):
         """Verifica se o Tecnico existe no banco de dados, caso verdadeiro,
-           chama o metodo que Atualiza um Tecnico no banco de dados 
+           chama o metodo que Atualiza um Tecnico no banco de dados
         """
         if self.db.pesquisar_tecnico_cpf(args[0]):
             tecnico = Tecnico(*args)
@@ -94,7 +94,7 @@ class ControllerFerramentaria:
 
     def deletar_tecnico(self, *args):
         """Verifica se o Tecnico existe no banco de dados, caso verdadeiro,
-           chama o metodo que Deleta um Tecnico no banco de dados 
+           chama o metodo que Deleta um Tecnico no banco de dados
         """
         if self.db.pesquisar_tecnico_cpf(args[0]):
             tecnico = Tecnico(*args)
@@ -103,20 +103,46 @@ class ControllerFerramentaria:
             messagebox.showerror(
                 title='Error', message='Tecnico não encontrado')
 
-    def pesquisar_ferramenta_id(self, id):
+    def pesquisar_ferramenta_id(self, id, treeview):
         """Chama o metodo do banco de dados que retorna a ferramenta
            com o ID informado
 
         Args:
             id (int): id a ser consultado
-
-        Returns:
-            list: Retorna a Ferramenta com o id informado
         """
-        return self.db.pesquisar_ferramenta_id(id)
+        ferramenta_id = self.db.pesquisar_ferramenta_id(id)
+        treeview.delete(*treeview.get_children())
 
-    def pespesquisar_ferramenta_descricao(self):
-        pass
+        for (id, descricao, fabricante, voltagem, serial, tamanho,
+             manutencao, medida, tipo, material) in ferramenta_id:
+            manutencao = self.tratar_data(manutencao, 'ferramenta')
+            treeview.insert('', 'end', values=(id, descricao, fabricante,
+                                               voltagem, serial, tamanho,
+                                               manutencao, medida, tipo,
+                                               material))
 
-    def pespesquisar_ferramenta_fabricante(self):
-        pass
+    def pespesquisar_ferramenta_descricao(self, descricao, treeview):
+        ferrmenta_descricao = self.db.pesquisar_ferramenta_descricao(descricao)
+        treeview.delete(*treeview.get_children())
+
+        for (id, descricao, fabricante, voltagem, serial, tamanho,
+             manutencao, medida, tipo, material) in ferrmenta_descricao:
+            manutencao = self.tratar_data(manutencao, 'ferramenta')
+            treeview.insert('', 'end', values=(id, descricao, fabricante,
+                                               voltagem, serial, tamanho,
+                                               manutencao, medida, tipo,
+                                               material))
+
+    def pespesquisar_ferramenta_fabricante(self, descricao, treeview):
+        ferrmenta_fabricante = self.db.pesquisar_ferramenta_fabricante(descricao)
+        treeview.delete(*treeview.get_children())
+
+        for (id, descricao, fabricante, voltagem, serial, tamanho,
+             manutencao, medida, tipo, material) in ferrmenta_fabricante:
+            manutencao = self.tratar_data(manutencao, 'ferramenta')
+            treeview.insert('', 'end', values=(id, descricao, fabricante,
+                                               voltagem, serial, tamanho,
+                                               manutencao, medida, tipo,
+                                               material))
+
+
