@@ -1,5 +1,3 @@
-from datetime import datetime
-from optparse import Values
 from model.tecnico import Tecnico
 from database.database import Database
 from tkinter import messagebox

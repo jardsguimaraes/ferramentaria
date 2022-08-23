@@ -1,4 +1,3 @@
-from ast import Delete
 from view.janela import Janela
 from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERDE, VERMELHO, PRETO
 from controller.controller_ferramentaria import ControllerFerramentaria
