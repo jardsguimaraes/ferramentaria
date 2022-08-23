@@ -69,7 +69,7 @@ class JanelaFerramenta(Janela):
                              relief='flat')
         lb_descricao.place(x=10, y=40)
         self.ent_descricao = Entry(self.frame_baixo, width=45, justify='left',
-                                        relief='solid')
+                                   relief='solid')
         self.ent_descricao.place(x=15, y=65)
 
         # Fabricante
@@ -138,14 +138,12 @@ class JanelaFerramenta(Janela):
 
         # Material
         lb_material = Label(self.frame_baixo, text='Material: ', anchor=N,
-                        font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
-                        relief='flat')
+                            font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
+                            relief='flat')
         lb_material.place(x=10, y=375)
         self.ent_material = Entry(self.frame_baixo, width=45, justify='left',
-                              relief='solid')
+                                  relief='solid')
         self.ent_material.place(x=15, y=400)
-
-
 
         # Botão Inserir
         btn_inserir = Button(self.frame_baixo, text='Inserir', width=8,
@@ -211,14 +209,15 @@ class JanelaFerramenta(Janela):
                     id_informado = int(self.ent_pesquisar.get())
                     ferramenta_id = self.controller.pesquisar_ferramenta_id(
                         id_informado)
-                    self.tv_ferramenta.delete(*self.tv_ferramenta.get_children())
+                    self.tv_ferramenta.delete(
+                        *self.tv_ferramenta.get_children())
                     for (ID, DESCRICAO, FABRICANTE, VOLTAGEM, SERIAL, TAMANHO,
-                        MANUTENCAO, MEDIDA, TIPO, MATERIAL) in ferramenta_id:
+                         MANUTENCAO, MEDIDA, TIPO, MATERIAL) in ferramenta_id:
                         self.tv_ferramenta.insert('', 'end', values=(ID, DESCRICAO,
-                                                                    FABRICANTE, VOLTAGEM,
-                                                                    SERIAL, TAMANHO,
-                                                                    MANUTENCAO, MEDIDA,
-                                                                    TIPO, MATERIAL))
+                                                                     FABRICANTE, VOLTAGEM,
+                                                                     SERIAL, TAMANHO,
+                                                                     MANUTENCAO, MEDIDA,
+                                                                     TIPO, MATERIAL))
                 except (Exception):
                     messagebox.showinfo(title='Ferramenta não encontrada',
                                         message='Ferramenta não encontradaF. '
@@ -232,7 +231,6 @@ class JanelaFerramenta(Janela):
             """
             self.ent_pesquisar.delete(0, END)
             self.ent_pesquisar.focus()
-
 
         # Frame Pesquisar
         fr_pesquisar = LabelFrame(self.frame_direita, text='Pesquisar',
@@ -286,16 +284,16 @@ class JanelaFerramenta(Janela):
                                                                 'MATERIAL'),
                                           show='headings')
 
-        self.tv_ferramenta.column('ID', minwidth=0, width=30)
-        self.tv_ferramenta.column('DESCRICAO', minwidth=0, width=220)
-        self.tv_ferramenta.column('FABRICANTE', minwidth=0, width=95)
-        self.tv_ferramenta.column('VOLTAGEM', minwidth=0, width=15)
-        self.tv_ferramenta.column('SERIAL', minwidth=0, width=50)
-        self.tv_ferramenta.column('TAMANHO', minwidth=0, width=50)
-        self.tv_ferramenta.column('MANUTENCAO', minwidth=0, width=50)
-        self.tv_ferramenta.column('MEDIDA', minwidth=0, width=50)
-        self.tv_ferramenta.column('TIPO', minwidth=0, width=50)
-        self.tv_ferramenta.column('MATERIAL', minwidth=0, width=50)
+        self.tv_ferramenta.column('ID', minwidth=10, width=20)
+        self.tv_ferramenta.column('DESCRICAO', minwidth=50, width=150)
+        self.tv_ferramenta.column('FABRICANTE', minwidth=50, width=95)
+        self.tv_ferramenta.column('VOLTAGEM', minwidth=80, width=100)
+        self.tv_ferramenta.column('SERIAL', minwidth=80, width=100)
+        self.tv_ferramenta.column('TAMANHO', minwidth=30, width=70)
+        self.tv_ferramenta.column('MANUTENCAO', minwidth=80, width=100)
+        self.tv_ferramenta.column('MEDIDA', minwidth=80, width=100)
+        self.tv_ferramenta.column('TIPO', minwidth=60, width=90)
+        self.tv_ferramenta.column('MATERIAL', minwidth=60, width=120)
 
         self.tv_ferramenta.heading('ID', text='ID')
         self.tv_ferramenta.heading('DESCRICAO', text='DESCRICAO')
@@ -315,8 +313,12 @@ class JanelaFerramenta(Janela):
 
         sbv = Scrollbar(fr_treeview, orient='vertical',
                         command=self.tv_ferramenta.yview)
-        self.tv_ferramenta.configure(yscrollcommand=sbv.set)
+        sbh = Scrollbar(fr_treeview, orient='horizontal',
+                        command=self.tv_ferramenta.xview)
+        self.tv_ferramenta.configure(yscrollcommand=sbv.set,
+                                     xscrollcommand=sbh.set)
 
         sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.96)
+        sbh.place(relx=0.01, rely=0.97, relwidth=0.96, relheight=0.03)
 
         self.controller.preencher_treeview(self.tv_ferramenta, 'ferramenta')
