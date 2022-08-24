@@ -1,4 +1,5 @@
 from model.tecnico import Tecnico
+from model.ferramenta import Ferramenta
 from database.database import Database
 from tkinter import messagebox
 
@@ -106,7 +107,8 @@ class ControllerFerramentaria:
            com o ID informado
 
         Args:
-            id (int): id a ser consultado
+            id (int): ID a ser pesquisado
+            treeview (tkinter): Treeview a ser preenchido 
         """
         ferramenta_id = self.db.pesquisar_ferramenta_id(id)
         treeview.delete(*treeview.get_children())
@@ -120,6 +122,13 @@ class ControllerFerramentaria:
                                                material))
 
     def pespesquisar_ferramenta_descricao(self, descricao, treeview):
+        """Chama o metodo do banco de dados que retorna a ferramenta
+           com a Descrição informada
+
+        Args:
+            descricao (str): Descição a ser pesquisada
+            treeview (tkinter): Treeview a ser preenchido 
+        """
         ferrmenta_descricao = self.db.pesquisar_ferramenta_descricao(descricao)
         treeview.delete(*treeview.get_children())
 
@@ -131,8 +140,16 @@ class ControllerFerramentaria:
                                                manutencao, medida, tipo,
                                                material))
 
-    def pespesquisar_ferramenta_fabricante(self, descricao, treeview):
-        ferrmenta_fabricante = self.db.pesquisar_ferramenta_fabricante(descricao)
+    def pespesquisar_ferramenta_fabricante(self, fabricante, treeview):
+        """Chama o metodo do banco de dados que retorna a ferramenta
+           com o Fabricante informado
+
+        Args:
+            descricao (str): Fabricante a ser pesquisado
+            treeview (tkinter): Treeview a ser preenchido 
+        """
+        # ferrmenta_fabricante = self.db.pesquisar_ferramenta_fabricante(descricao)
+        ferrmenta_fabricante = self.db.pesquisar_ferramenta_fabricante(fabricante)
         treeview.delete(*treeview.get_children())
 
         for (id, descricao, fabricante, voltagem, serial, tamanho,
@@ -143,4 +160,6 @@ class ControllerFerramentaria:
                                                manutencao, medida, tipo,
                                                material))
 
-
+    def inserir_ferramenta(self, *args):
+        ferramenta = Ferramenta(*args)
+        ferramenta.inserir(ferramenta)

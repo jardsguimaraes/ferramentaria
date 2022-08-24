@@ -42,10 +42,53 @@ class JanelaFerramenta(Janela):
         """
 
         def valida_formaulario():
-            pass
+            """Verifica se não há nenhum campo em branco
+               no formulário
+
+            Returns:
+                bool: Retorna Verdadeiro se todos os compos estiver vazio
+            """
+            retorno = True
+
+            if not self.ent_id.get().split():
+                retorno = False
+            elif not self.ent_descricao.get().split():
+                retorno = False
+            elif not self.ent_fabricante.get().split():
+                retorno = False
+            elif not self.ent_voltagem.get().split():
+                retorno = False
+            elif not self.ent_serial.get().split():
+                retorno = False
+            elif not self.ent_tamanho.get().split():
+                retorno = False
+            elif not self.ent_medida.get().split():
+                retorno = False
+            elif not self.ent_tipo.get().split():
+                retorno = False
+            elif not self.ent_material.get().split():
+                retorno = False
+
+            return retorno
+
+        def pega_formulario():
+            parametros = (self.ent_id, self.ent_descricao,
+                          self.ent_fabricante, self.ent_voltagem,
+                          self.ent_serial, self.ent_tamanho,
+                          self.ent_manutencao, self.ent_medida,
+                          self.ent_tipo, self.ent_material)
+            return parametros
 
         def botao_inserir():
-            pass
+            """insere uma Ferramenta
+            """
+            if valida_formaulario():
+                parametros = pega_formulario()
+                self.controller.inserir_ferramenta(*parametros)
+            else:
+                messagebox.showerror(title='Error', message='Todos os campos '
+                                                            'devem estar '
+                                                            'preeenchidos!!!')
 
         def botao_atualizar():
             pass
@@ -196,7 +239,7 @@ class JanelaFerramenta(Janela):
             """
             self.ent_pesquisar.delete(0, END)
             self.ent_pesquisar.focus()
-        
+
         def botao_pesquisar():
             """Verifica qual Opção do RadioButton esta selecionada e 
                chama a função correta
@@ -209,7 +252,7 @@ class JanelaFerramenta(Janela):
                 try:
                     id_informado = int(self.ent_pesquisar.get())
                     self.controller.pesquisar_ferramenta_id(
-                        id_informado, self.tv_ferramenta)                    
+                        id_informado, self.tv_ferramenta)
                 except (Exception):
                     messagebox.showinfo(title='Ferramenta não encontrada',
                                         message='Ferramenta não encontrada. '
@@ -221,7 +264,7 @@ class JanelaFerramenta(Janela):
                 try:
                     descricao_informada = self.ent_pesquisar.get()
                     self.controller.pespesquisar_ferramenta_descricao(
-                        descricao_informada, self.tv_ferramenta)                    
+                        descricao_informada, self.tv_ferramenta)
                 except (Exception):
                     messagebox.showinfo(title='Ferramenta não encontrada',
                                         message='Ferramenta não encontrada. '
@@ -233,7 +276,7 @@ class JanelaFerramenta(Janela):
                 try:
                     descricao_informada = self.ent_pesquisar.get()
                     self.controller.pespesquisar_ferramenta_fabricante(
-                        descricao_informada, self.tv_ferramenta)                    
+                        descricao_informada, self.tv_ferramenta)
                 except (Exception):
                     messagebox.showinfo(title='Ferramenta não encontrada',
                                         message='Ferramenta não encontrada. '
@@ -241,9 +284,6 @@ class JanelaFerramenta(Janela):
                 finally:
                     self.ent_pesquisar.delete(0, END)
                     self.ent_pesquisar.focus()
-        
-
-
 
         # Frame Pesquisar
         fr_pesquisar = LabelFrame(self.frame_direita, text='Pesquisar',
