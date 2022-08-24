@@ -109,7 +109,11 @@ class Ferramenta:
         self.db.inserir_ferramenta(*parametros)
 
     def atualizar(self, ferramenta):
-        pass
+        parametros = (ferramenta.descricao, ferramenta.fabricante, ferramenta.voltagem,
+                      ferramenta.serial, ferramenta.tamanho,
+                      ferramenta.manutencao, ferramenta.medida,
+                      ferramenta.tipo, ferramenta.material, ferramenta.id)
+        self.db.atualizar_ferramenta(*parametros)
 
     def deletar(self, ferramenta):
         """Chama o metodo que Deleta a Ferramenta no Bando de Dados

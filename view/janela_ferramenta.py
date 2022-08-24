@@ -100,11 +100,27 @@ class JanelaFerramenta(Janela):
                 self.ent_id.focus()
 
         def botao_atualizar():
-            """Deleta uma Ferramenta
+            """Atualiza uma Ferramenta
             """
-            pass
+            if valida_formaulario():
+                parametros = pega_formulario()
+                self.controller.atualizar_ferramenta(*parametros)
+                self.tv_ferramenta.delete(*self.tv_ferramenta.get_children())
+                self.controller.preencher_treeview(
+                    self.tv_ferramenta, 'ferramenta')
+                self.limpar_campos()
+                messagebox.showinfo(title='Atualizado!!!',
+                                    message='Ferramenta Atualizada com Sucesso')
+                self.ent_id.focus()
+            else:
+                messagebox.showinfo(title='Error', message='Todos os campos '
+                                                            'devem estar '
+                                                            'preeenchidos!!!')
+                self.ent_id.focus()
 
         def botao_deletar():
+            """Deleta uma Ferramenta
+            """
             if valida_formaulario('Deletar'):
                 parametros = pega_formulario()
                 self.controller.deletar_ferramenta(*parametros)

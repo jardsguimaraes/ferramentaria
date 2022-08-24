@@ -36,6 +36,6 @@ DELETAR_FERRAMENTA = "DELETE FROM ferramenta WHERE id = %s"
 
 #   UPDATE
 ATUALIZAR_FERRAMENTA = """UPDATE ferramenta SET descricao = %s, fabricante = %s,
-                          voltagem = %s, serial = %s, tamanho = %s
+                          voltagem = %s, serial = %s, tamanho = %s,
                           manutencao = %s, medida = %s, tipo = %s,
                           material = %s WHERE id = %s"""

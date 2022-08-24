@@ -262,7 +262,7 @@ class Database:
             self.cursor.execute(ATUALIZAR_FERRAMENTA, args)
             conexao.commit()
         except (Exception, DatabaseError) as ex:
-            print('Erro no Select Ferramenta_fabricante', ex)
+            print('Erro no Atualizar Ferramenta', ex)
         finally:
             self.fechar_conexao()
 

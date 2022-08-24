@@ -164,7 +164,18 @@ class ControllerFerramentaria:
         ferramenta = Ferramenta(*args)
         ferramenta.inserir(ferramenta)
 
+    def atualizar_ferramenta(self, *args):
+        if self.db.pesquisar_ferramenta_id(args[0]):
+            ferramenta = Ferramenta(*args)
+            ferramenta.atualizar(ferramenta)
+        else:
+            messagebox.showerror(
+                title='Error', message='Ferramenta não Encontrada')
+
     def deletar_ferramenta(self, *args):
+        """"Verifica se a Ferrmenta existe no banco de dados, caso verdadeiro,
+           chama o metodo que Deleta uma Ferramenta no banco de dados
+        """
         if self.db.pesquisar_ferramenta_id(args[0]):
             ferramenta = Ferramenta(*args)
             ferramenta.deletar(ferramenta)
