@@ -163,3 +163,11 @@ class ControllerFerramentaria:
     def inserir_ferramenta(self, *args):
         ferramenta = Ferramenta(*args)
         ferramenta.inserir(ferramenta)
+
+    def deletar_ferramenta(self, *args):
+        if self.db.pesquisar_ferramenta_id(args[0]):
+            ferramenta = Ferramenta(*args)
+            ferramenta.deletar(ferramenta)
+        else:
+            messagebox.showerror(
+                title='Error', message='Ferramenta não Encontrada')

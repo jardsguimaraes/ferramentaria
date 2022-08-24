@@ -1,3 +1,4 @@
+from database.querys import DELETAR_FERRAMENTA
 from view.janela import Janela
 from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERDE, VERMELHO, PRETO
 from controller.controller_ferramentaria import ControllerFerramentaria
@@ -96,13 +97,29 @@ class JanelaFerramenta(Janela):
                 messagebox.showerror(title='Error', message='Todos os campos '
                                                             'devem estar '
                                                             'preeenchidos!!!')
+                self.ent_id.focus()
 
         def botao_atualizar():
+            """Deleta uma Ferramenta
+            """
             pass
 
         def botao_deletar():
-            pass
-
+            if valida_formaulario('Deletar'):
+                parametros = pega_formulario()
+                self.controller.deletar_ferramenta(*parametros)
+                self.tv_ferramenta.delete(*self.tv_ferramenta.get_children())
+                self.controller.preencher_treeview(
+                    self.tv_ferramenta, 'ferramenta')
+                self.limpar_campos()
+                messagebox.showinfo(title='Deletado!!!',
+                                    message='Ferramenta Deletada com Sucesso')
+                self.ent_id.focus()
+            else:
+                messagebox.showerror(title='Error', message='O campo ID '
+                                                            'devem estar '
+                                                            'preeenchidos!!!')
+                self.ent_id.focus()
         # ID
         lb_id = Label(self.frame_baixo, text='ID', anchor=NW,
                       font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,

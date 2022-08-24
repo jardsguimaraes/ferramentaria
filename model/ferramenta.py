@@ -112,7 +112,12 @@ class Ferramenta:
         pass
 
     def deletar(self, ferramenta):
-        pass
+        """Chama o metodo que Deleta a Ferramenta no Bando de Dados
+
+        Args:
+            ferramenta (Ferramenta): Ferramenta que será Deletada
+        """
+        self.db.deletar_ferramenta(ferramenta.id)
 
         """self, id, descricao, fabricante,
                  voltagem, serial, tamanho, manutencao,

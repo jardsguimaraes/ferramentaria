@@ -89,8 +89,7 @@ class Tecnico:
         self.db.atualizar_tecnico(*parametros)
 
     def deletar(self, tecnico):
-        """Trata as regras de negócio antes de chamar o metodo que 
-           Deletdo o Tecnico no Bando de Dados
+        """Chama o metodo que Deleta o Tecnico no Bando de Dados
 
         Args:
             tecnico (Tecnico): Tecnico que será Deletado
