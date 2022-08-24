@@ -41,7 +41,7 @@ class JanelaFerramenta(Janela):
         """Carrega os componentes do Frame Formulário
         """
 
-        def valida_formaulario():
+        def valida_formaulario(botao='passar'):
             """Verifica se não há nenhum campo em branco
                no formulário
 
@@ -50,7 +50,7 @@ class JanelaFerramenta(Janela):
             """
             retorno = True
 
-            if not self.ent_id.get().split():
+            if not self.ent_id.get().split() and botao == 'Deletar':
                 retorno = False
             elif not self.ent_descricao.get().split():
                 retorno = False
@@ -72,11 +72,11 @@ class JanelaFerramenta(Janela):
             return retorno
 
         def pega_formulario():
-            parametros = (self.ent_id, self.ent_descricao,
-                          self.ent_fabricante, self.ent_voltagem,
-                          self.ent_serial, self.ent_tamanho,
-                          self.ent_manutencao, self.ent_medida,
-                          self.ent_tipo, self.ent_material)
+            parametros = (self.ent_id.get(), self.ent_descricao.get(),
+                          self.ent_fabricante.get(), self.ent_voltagem.get(),
+                          self.ent_serial.get(), self.ent_tamanho.get(),
+                          self.ent_manutencao.get(), self.ent_medida.get(),
+                          self.ent_tipo.get(), self.ent_material.get())
             return parametros
 
         def botao_inserir():
@@ -85,6 +85,13 @@ class JanelaFerramenta(Janela):
             if valida_formaulario():
                 parametros = pega_formulario()
                 self.controller.inserir_ferramenta(*parametros)
+                self.tv_ferramenta.delete(*self.tv_ferramenta.get_children())
+                self.controller.preencher_treeview(
+                    self.tv_ferramenta, 'ferramenta')
+                self.limpar_campos()
+                messagebox.showinfo(title='Cadastrado!!!',
+                                    message='Ferramenta Cadastrada com Sucesso')
+                self.ent_id.focus()
             else:
                 messagebox.showerror(title='Error', message='Todos os campos '
                                                             'devem estar '

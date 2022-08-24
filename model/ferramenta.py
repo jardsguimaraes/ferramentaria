@@ -96,6 +96,7 @@ class Ferramenta:
         self._material = material
 
     def tratar_data(self, data):
+        print(data)
         data_formatada = str(data).split('-')
         data_formatada = f'{data_formatada[2]}/{data_formatada[1]}/{data_formatada[0]}'
         return str(data_formatada)
