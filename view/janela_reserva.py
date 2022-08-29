@@ -77,9 +77,9 @@ class JanelaReserva(Janela):
                                        justify='left', relief='solid')
         self.ent_id_ferramenta.place(x=135, y=90)
         self.btn_lupa_ferramenta = Button(self.frame_baixo, text='Pesquisar', width=8,
-                                       font=('Ivy 7 bold'), relief='raised',
-                                       overrelief='ridge',
-                                       command=botao_pesquisar_ferramenta)
+                                          font=('Ivy 7 bold'), relief='raised',
+                                          overrelief='ridge',
+                                          command=botao_pesquisar_ferramenta)
         self.btn_lupa_ferramenta.place(x=235, y=90)
         self.lb_nome_ferramenta = Label(self.frame_baixo, text=self.nome_ferramenta,
                                         anchor=NW, font='Times 10', fg=PRETO,
@@ -91,31 +91,42 @@ class JanelaReserva(Janela):
                                 font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
                                 relief='flat')
         lb_id_devolucao.place(x=10, y=140)
+        lb_data_devolucao = Label(self.frame_baixo, text='Data: ', anchor=NW,
+                                  font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
+                                  relief='flat')
+        lb_data_devolucao.place(x=15, y=165)                                  
         self.ent_devolucao = DateEntry(self.frame_baixo, width=15, background=AZUL,
                                        foreground=BRANCO, borderwidth=2, year=2022,
                                        locate='pt_br')
-        self.ent_devolucao.place(x=105, y=140)
+        self.ent_devolucao.place(x=65, y=165)
+        lb_hora_devolucao = Label(self.frame_baixo, text='Hora: ', anchor=NW,
+                                  font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
+                                  relief='flat')
+        lb_hora_devolucao.place(x=185, y=165)  
+        self.ent_hora_devolucao = Entry(self.frame_baixo, width=10,
+                                       justify='left', relief='solid')
+        self.ent_hora_devolucao.place(x=235, y=165)        
 
         # Botão Inserir
         btn_inserir = Button(self.frame_baixo, text='Inserir', width=8,
                              font=('Ivy 10 bold'), bg=AZUL, fg=BRANCO,
                              relief='raised', overrelief='ridge',
                              command=botao_inserir)
-        btn_inserir.place(x=15, y=185)
+        btn_inserir.place(x=15, y=200)
 
         # Botão Atualizar
         btn_atualizar = Button(self.frame_baixo, text='Atualizar', width=8,
                                font=('Ivy 10 bold'), bg=VERDE, fg=BRANCO,
                                relief='raised', overrelief='ridge',
                                command=botao_atualizar)
-        btn_atualizar.place(x=115, y=185)
+        btn_atualizar.place(x=115, y=200)
 
         # Botão Deletar
         btn_deletar = Button(self.frame_baixo, text='Deletar', width=8,
                              font=('Ivy 10 bold'), bg=VERMELHO, fg=BRANCO,
                              relief='raised', overrelief='ridge',
                              command=botao_deletar)
-        btn_deletar.place(x=215, y=185)
+        btn_deletar.place(x=215, y=200)
 
     def carrega_frame_direita(self):
         pass

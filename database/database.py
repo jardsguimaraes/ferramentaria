@@ -6,7 +6,7 @@ from database.querys import ATUALIZAR_TECNICO, DELETAR_TECNICO
 from database.querys import PESQUISAR_FERRAMENTAS, PESQUISAR_FERRAMENTA_ID
 from database.querys import PESQUISAR_FERRAMENTA_FABRICANTE
 from database.querys import INSERIR_FERRAMENTA, DELETAR_FERRAMENTA
-from database.querys import ATUALIZAR_FERRAMENTA
+from database.querys import ATUALIZAR_FERRAMENTA, PESQUISAR_RESERVAS
 
 import psycopg2
 
@@ -266,34 +266,25 @@ class Database:
         finally:
             self.fechar_conexao()
 
-        
+    def pesquisar_reserva(self):
+        """Função para pesquisar todas as Reservas
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        Returns:
+            list: Retorna todas as Reservas cadastradas no SGBD
+        """
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(PESQUISAR_RESERVAS)
+            resultado = self.cursor.fetchall()
+            return resultado
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Reserva ', ex)
+        finally:
+            self.fechar_conexao()
+    
+    def inserir_reserva(self):        
+        pass
 
 
 

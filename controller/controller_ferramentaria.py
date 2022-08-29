@@ -19,6 +19,8 @@ class ControllerFerramentaria:
             data_formatada = str(data).split('-')
             data_formatada = f'{data_formatada[2]}/{data_formatada[1]}/{data_formatada[0]}'
             return str(data_formatada)
+        elif nome_janela == 'reserva':
+            pass
 
     def preencher_treeview(self, treeview, nome_tela):
         """Preenche o Treeview
@@ -44,7 +46,12 @@ class ControllerFerramentaria:
                                                    manutencao, medida, tipo,
                                                    material))
         elif nome_tela == 'reserva':
-            pass
+            reservas_cadastradas = self.db.pesquisar_reserva()
+            treeview.delete(*treeview.get_children())
+            for (id, tecnico, ferramenta, devolução) in reservas_cadastradas:
+                self.tratar_data(devolução, 'reserva')
+                treeview.insert('', 'end', values=(id, tecnico, ferramenta,
+                                                   devolução))
 
     def pesquisar_tecnico_cpf(self, cpf, treeview):
         """Chama o metodo do banco de dados que retorna o tecnico
@@ -148,8 +155,8 @@ class ControllerFerramentaria:
             descricao (str): Fabricante a ser pesquisado
             treeview (tkinter): Treeview a ser preenchido 
         """
-        # ferrmenta_fabricante = self.db.pesquisar_ferramenta_fabricante(descricao)
-        ferrmenta_fabricante = self.db.pesquisar_ferramenta_fabricante(fabricante)
+        ferrmenta_fabricante = self.db.pesquisar_ferramenta_fabricante(
+            fabricante)
         treeview.delete(*treeview.get_children())
 
         for (id, descricao, fabricante, voltagem, serial, tamanho,

@@ -39,3 +39,18 @@ ATUALIZAR_FERRAMENTA = """UPDATE ferramenta SET descricao = %s, fabricante = %s,
                           voltagem = %s, serial = %s, tamanho = %s,
                           manutencao = %s, medida = %s, tipo = %s,
                           material = %s WHERE id = %s"""
+
+# QUERYS TABELA FERRAMENTA
+#   SELECT
+PESQUISAR_RESERVAS = """"SELECT reserva.id, tecnico.nome, ferramenta.descricao,
+                                reserva.devolucao
+                         FROM ferramenta, tecnico, reserva
+                         WHERE reserva.tecnico_cpf = tecnico.cpf AND
+                               reserva.ferramenta_id = ferramenta.id
+                         ORDER BY
+                                reserva.id"""
+#   INSERT
+
+#   DELETE
+
+#   UPDATE
