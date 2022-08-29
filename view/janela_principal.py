@@ -1,6 +1,7 @@
 from constantes.constantes import BRANCO
 from view.janela_tecnico import JanelaTecnico
 from view.janela_ferramenta import JanelaFerramenta
+from view.janela_reserva import JanelaReserva
 from view.janela_sobre import JanelaSobre
 from tkinter import Tk, Menu, Label, PhotoImage
 
@@ -11,8 +12,8 @@ class JanelaPrincipal:
     """Classe da Jenela Principal do Programa
     """
 
-    def __init__(self, local_magens):
-        self.pasta_app = local_magens
+    def __init__(self, local_imagens):
+        self.pasta_app = local_imagens
         self.carregar_janela_principal()
 
     def limpar_logo(self):
@@ -36,7 +37,8 @@ class JanelaPrincipal:
     def janela_reserva(self):
         """Chama a Janela Reserva
         """
-        pass
+        self.limpar_logo()
+        JanelaReserva(self.janela, self.pasta_app)
 
     def janela_sobre(self):
         """Chama a Janela Sobre

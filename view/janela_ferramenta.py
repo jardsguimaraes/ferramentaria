@@ -136,7 +136,7 @@ class JanelaFerramenta(Janela):
                                                             'preeenchidos!!!')
                 self.ent_id.focus()
         # ID
-        lb_id = Label(self.frame_baixo, text='ID', anchor=NW,
+        lb_id = Label(self.frame_baixo, text='ID:', anchor=NW,
                       font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
                       relief='flat')
         lb_id.place(x=10, y=10)
