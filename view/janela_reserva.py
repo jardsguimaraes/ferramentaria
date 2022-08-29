@@ -1,6 +1,6 @@
 from webbrowser import BackgroundBrowser
 from view.janela import Janela
-from constantes.constantes import AZUL, BRANCO, PRETO, VERDE, VERMELHO, co5
+from constantes.constantes import AZUL, BRANCO, PRETO, VERDE, VERMELHO, LISTA_HORARIOS
 from controller.controller_ferramentaria import ControllerFerramentaria
 from tkinter import Entry, Label, Button, PhotoImage, ttk
 # from tkinter import Radiobutton, messagebox, ttk
@@ -94,7 +94,7 @@ class JanelaReserva(Janela):
         lb_data_devolucao = Label(self.frame_baixo, text='Data: ', anchor=NW,
                                   font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
                                   relief='flat')
-        lb_data_devolucao.place(x=15, y=165)                                  
+        lb_data_devolucao.place(x=15, y=165)
         self.ent_devolucao = DateEntry(self.frame_baixo, width=15, background=AZUL,
                                        foreground=BRANCO, borderwidth=2, year=2022,
                                        locate='pt_br')
@@ -102,10 +102,14 @@ class JanelaReserva(Janela):
         lb_hora_devolucao = Label(self.frame_baixo, text='Hora: ', anchor=NW,
                                   font=('Ivy 13 bold'), fg=PRETO, bg=BRANCO,
                                   relief='flat')
-        lb_hora_devolucao.place(x=185, y=165)  
-        self.ent_hora_devolucao = Entry(self.frame_baixo, width=10,
-                                       justify='left', relief='solid')
-        self.ent_hora_devolucao.place(x=235, y=165)        
+        lb_hora_devolucao.place(x=185, y=165)
+        self.cbx_hora_devolucao = ttk.Combobox(self.frame_baixo, values=LISTA_HORARIOS,
+                                               width=6)
+        self.cbx_hora_devolucao.place(x=235, y=165)
+        self.cbx_hora_devolucao.set('00:00')
+        # self.ent_hora_devolucao = Entry(self.frame_baixo, width=10,
+        #                                justify='left', relief='solid')
+        # self.ent_hora_devolucao.place(x=235, y=165)
 
         # Botão Inserir
         btn_inserir = Button(self.frame_baixo, text='Inserir', width=8,

@@ -48,10 +48,11 @@ class ControllerFerramentaria:
         elif nome_tela == 'reserva':
             reservas_cadastradas = self.db.pesquisar_reserva()
             treeview.delete(*treeview.get_children())
-            for (id, tecnico, ferramenta, devolução) in reservas_cadastradas:
-                self.tratar_data(devolução, 'reserva')
-                treeview.insert('', 'end', values=(id, tecnico, ferramenta,
-                                                   devolução))
+            for (id, tecnico, ferramenta, devolucao) in reservas_cadastradas:
+                self.tratar_data(devolucao, 'reserva')
+                print(id, tecnico, ferramenta, devolucao)
+                # treeview.insert('', 'end', values=(id, tecnico, ferramenta,
+                #                                    devolucao))
 
     def pesquisar_tecnico_cpf(self, cpf, treeview):
         """Chama o metodo do banco de dados que retorna o tecnico
