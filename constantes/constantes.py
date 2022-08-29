@@ -10,6 +10,9 @@ VERMELHO = "#ef5350"
 VERDE_CLARO = "#263238"
 AZUL_CLARO = "#e9edf5"
 
+#     TURNOS
+LISTA_TURNOS = ['MANHA', 'TARDE', 'NOITE']
+
 #     HORÁRIOS
 LISTA_HORARIOS = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30',
                   '03:00', '03:30', '04:00', '04:30', '05:00', '05:30',

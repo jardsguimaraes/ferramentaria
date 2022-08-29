@@ -1,10 +1,10 @@
-from webbrowser import BackgroundBrowser
 from view.janela import Janela
-from constantes.constantes import AZUL, BRANCO, PRETO, VERDE, VERMELHO, LISTA_HORARIOS
+from constantes.constantes import AZUL, BRANCO, PRETO, VERDE, VERMELHO
+from constantes.constantes import VERDE_CLARO, LISTA_HORARIOS
 from controller.controller_ferramentaria import ControllerFerramentaria
-from tkinter import Entry, Label, Button, PhotoImage, ttk
-# from tkinter import Radiobutton, messagebox, ttk
-from tkinter.constants import NW
+from tkinter import SEL, Entry, IntVar, Label, Button, LabelFrame, Frame
+from tkinter import Radiobutton, messagebox, ttk, Scrollbar
+from tkinter.constants import NW, END
 from tkcalendar import DateEntry
 
 
@@ -107,9 +107,6 @@ class JanelaReserva(Janela):
                                                width=6)
         self.cbx_hora_devolucao.place(x=235, y=165)
         self.cbx_hora_devolucao.set('00:00')
-        # self.ent_hora_devolucao = Entry(self.frame_baixo, width=10,
-        #                                justify='left', relief='solid')
-        # self.ent_hora_devolucao.place(x=235, y=165)
 
         # Botão Inserir
         btn_inserir = Button(self.frame_baixo, text='Inserir', width=8,
@@ -133,4 +130,92 @@ class JanelaReserva(Janela):
         btn_deletar.place(x=215, y=200)
 
     def carrega_frame_direita(self):
-        pass
+
+        def apresentar_dados_selecionados(event):
+            pass
+
+        def limpar_entry_pesquisar():
+            """Limpa o Campo de Pesquisa
+            """
+            self.ent_pesquisar.delete(0, END)
+            self.ent_pesquisar.focus()
+
+        def botao_pesquisar():
+            """Verifica qual Opção do RadioButton esta selecionada e 
+               chama a função correta
+            """
+            if grupo_rb.get() == 0:
+                pass
+                # self.controller.preencher_treeview(
+                #     self.tv_ferramenta, 'ferramenta')
+                # limpar_entry_pesquisar()
+
+        # Frame Pesquisar
+        fr_pesquisar = LabelFrame(self.frame_direita, text='Pesquisar',
+                                  width=730, height=82, relief='solid',
+                                  bg=BRANCO, border=1)
+        fr_pesquisar.grid(column=0, row=0)
+
+        self.ent_pesquisar = Entry(fr_pesquisar, width=95, justify='left',
+                                   relief='solid')
+        self.ent_pesquisar.place(x=5, y=30)
+
+        # RadioButton
+        grupo_rb = IntVar()
+
+        rb_todos = Radiobutton(fr_pesquisar, text='Todos', variable=grupo_rb,
+                               value=0, bg=BRANCO, command=botao_pesquisar)
+        rb_todos.place(x=5, y=2)
+
+        rb_tecnico = Radiobutton(fr_pesquisar, text='Tecnico', variable=grupo_rb,
+                                 value=1, bg=BRANCO,
+                                 command=limpar_entry_pesquisar)
+        rb_tecnico.place(x=70, y=2)
+
+        rb_ferramenta = Radiobutton(fr_pesquisar, text='Ferramenta', variable=grupo_rb,
+                                    value=2, bg=BRANCO,
+                                    command=limpar_entry_pesquisar)
+        rb_ferramenta.place(x=150, y=2)
+
+        rb_todos.select()
+
+        # Botão pesquisar
+        btn_pesquisar = Button(fr_pesquisar, text='Pesquisar', width=8,
+                               font='Ivy 13 bold', bg=VERDE_CLARO, fg=BRANCO,
+                               relief='raised', overrelief='ridge',
+                               command=botao_pesquisar)
+        btn_pesquisar.place(x=585, y=21)
+
+        # Frame Treeview
+        fr_treeview = Frame(self.frame_direita, width=730, height=460,
+                            relief='solid', bg=BRANCO, border=1)
+        fr_treeview.grid(column=0, row=1, pady=5)
+
+        self.tv_reserva = ttk.Treeview(fr_treeview, columns=('ID', 'TECNICO', 'FERRAMENTA',
+                                                             'DEVOLUCAO'),
+                                       show='headings')
+
+        self.tv_reserva.column('ID', minwidth=10, width=20)
+        self.tv_reserva.column('TECNICO', minwidth=0, width=220)
+        self.tv_reserva.column('FERRAMENTA', minwidth=50, width=150)
+        self.tv_reserva.column('DEVOLUCAO', minwidth=80, width=100)
+
+        self.tv_reserva.heading('ID', text='ID')
+        self.tv_reserva.heading('TECNICO', text='TECNICO')
+        self.tv_reserva.heading('FERRAMENTA', text='FERRAMENTA')
+        self.tv_reserva.heading('DEVOLUCAO', text='DEVOLUCAO')
+
+        self.tv_reserva.place(relx=0.01, rely=0.01,
+                              relwidth=0.96, relheight=0.96)
+        self.tv_reserva.bind('<<TreeviewSelect>>',
+                             apresentar_dados_selecionados)
+
+        sbv = Scrollbar(fr_treeview, orient='vertical',
+                        command=self.tv_reserva.yview)
+        sbh = Scrollbar(fr_treeview, orient='horizontal',
+                        command=self.tv_reserva.xview)
+        self.tv_reserva.configure(yscrollcommand=sbv.set,
+                                  xscrollcommand=sbh.set)
+
+        sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.96)
+        sbh.place(relx=0.01, rely=0.97, relwidth=0.96, relheight=0.03)

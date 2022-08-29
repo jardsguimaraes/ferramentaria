@@ -1,4 +1,5 @@
-from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERMELHO, VERDE, PRETO
+from constantes.constantes import AZUL, BRANCO, VERDE_CLARO, VERMELHO
+from constantes.constantes import LISTA_TURNOS, VERDE, PRETO
 from controller.controller_ferramentaria import ControllerFerramentaria
 from view.janela import Janela
 from tkinter import Button, Frame, IntVar, Label, LabelFrame, Entry, Scrollbar
@@ -160,7 +161,7 @@ class JanelaTecnico(Janela):
                          relief='flat')
         lb_turno.place(x=10, y=175)
 
-        self.cbx_turno = ttk.Combobox(self.frame_baixo, values=lista_turno,
+        self.cbx_turno = ttk.Combobox(self.frame_baixo, values=LISTA_TURNOS,
                                       width=15)
         self.cbx_turno.place(x=15, y=200)
 
