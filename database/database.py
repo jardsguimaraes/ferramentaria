@@ -7,6 +7,7 @@ from database.querys import PESQUISAR_FERRAMENTAS, PESQUISAR_FERRAMENTA_ID
 from database.querys import PESQUISAR_FERRAMENTA_FABRICANTE
 from database.querys import INSERIR_FERRAMENTA, DELETAR_FERRAMENTA
 from database.querys import ATUALIZAR_FERRAMENTA, PESQUISAR_RESERVAS
+from database.querys import PESQUISAR_RESERVA_TECNICO, PESQUISAR_RESERVA_FERRAMENTA
 
 import psycopg2
 
@@ -282,6 +283,47 @@ class Database:
             print('Erro no Select Reserva ', ex)
         finally:
             self.fechar_conexao()
+    
+    def pesquisar_reserva_tecnico(self, nome):
+        """Realiza um Select no Banco
+
+        Args:
+            nome (str): Nome a ser procurado a Reserva no Bando de Dados. 
+
+        Returns:
+            list:  Retorna a Reserva com o Nome do Tecnico informado
+        """
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(PESQUISAR_RESERVA_TECNICO, (nome, ))
+            resultado = self.cursor.fetchall()
+            return resultado
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Reserva Tecnico ', ex)
+        finally:
+            self.fechar_conexao()
+
+    def pesquisar_reserva_ferramneta(self, ferramenta):
+        """Realiza um Select no Banco
+
+        Args:
+            ferramenta (str): Ferramenta a ser procurado a Reserva no Bando de Dados.
+
+        Returns:
+            list:  Retorna a Reserva com o Nome da Ferramenta informada
+        """
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(PESQUISAR_RESERVA_FERRAMENTA, (ferramenta, ))
+            resultado = self.cursor.fetchall()
+            return resultado
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Reserva Ferrramenta ', ex)
+        finally:
+            self.fechar_conexao()
+
     
     def inserir_reserva(self):        
         pass

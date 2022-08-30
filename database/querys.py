@@ -42,13 +42,26 @@ ATUALIZAR_FERRAMENTA = """UPDATE ferramenta SET descricao = %s, fabricante = %s,
 
 # QUERYS TABELA FERRAMENTA
 #   SELECT
-PESQUISAR_RESERVAS = """"SELECT reserva.id, tecnico.nome, ferramenta.descricao,
-                                reserva.devolucao
+PESQUISAR_RESERVAS = """SELECT reserva.id, tecnico.nome,
+                               ferramenta.descricao, reserva.devolucao
                          FROM ferramenta, tecnico, reserva
                          WHERE reserva.tecnico_cpf = tecnico.cpf AND
                                reserva.ferramenta_id = ferramenta.id
-                         ORDER BY
-                                reserva.id"""
+                         ORDER BY reserva.id"""
+PESQUISAR_RESERVA_TECNICO = """SELECT reserva.id, tecnico.nome,
+                                      ferramenta.descricao, reserva.devolucao
+                               FROM ferramenta, tecnico, reserva
+                               WHERE reserva.tecnico_cpf = tecnico.cpf AND
+                                     reserva.ferramenta_id = ferramenta.id AND
+                                     tecnico.nome like '%%' || %s || '%%'
+                               ORDER BY reserva.id"""        
+PESQUISAR_RESERVA_FERRAMENTA = """SELECT reserva.id, tecnico.nome,
+                                         ferramenta.descricao, reserva.devolucao
+                                  FROM ferramenta, tecnico, reserva
+                                  WHERE reserva.tecnico_cpf = tecnico.cpf AND
+                                        reserva.ferramenta_id = ferramenta.id AND
+                                        ferramenta.descricao like '%%' || %s || '%%'
+                                  ORDER BY reserva.id"""                                                              
 #   INSERT
 
 #   DELETE

@@ -2,6 +2,7 @@ from model.tecnico import Tecnico
 from model.ferramenta import Ferramenta
 from database.database import Database
 from tkinter import messagebox
+from datetime import datetime
 
 
 class ControllerFerramentaria:
@@ -20,7 +21,9 @@ class ControllerFerramentaria:
             data_formatada = f'{data_formatada[2]}/{data_formatada[1]}/{data_formatada[0]}'
             return str(data_formatada)
         elif nome_janela == 'reserva':
-            pass
+            data_formatada = datetime.strftime(data, "%d/%m/%Y")
+            hora_formatada = datetime.strftime(data, "%H:%M")
+            return data_formatada, hora_formatada
 
     def preencher_treeview(self, treeview, nome_tela):
         """Preenche o Treeview
@@ -49,10 +52,9 @@ class ControllerFerramentaria:
             reservas_cadastradas = self.db.pesquisar_reserva()
             treeview.delete(*treeview.get_children())
             for (id, tecnico, ferramenta, devolucao) in reservas_cadastradas:
-                self.tratar_data(devolucao, 'reserva')
-                print(id, tecnico, ferramenta, devolucao)
-                # treeview.insert('', 'end', values=(id, tecnico, ferramenta,
-                #                                    devolucao))
+                data_devolucao, hora_devolucao = self.tratar_data(devolucao, 'reserva')
+                treeview.insert('', 'end', values=(id, tecnico, ferramenta,
+                                                   data_devolucao, hora_devolucao))
 
     def pesquisar_tecnico_cpf(self, cpf, treeview):
         """Chama o metodo do banco de dados que retorna o tecnico
@@ -127,7 +129,7 @@ class ControllerFerramentaria:
             treeview.insert('', 'end', values=(id, descricao, fabricante,
                                                voltagem, serial, tamanho,
                                                manutencao, medida, tipo,
-                                               material))
+                                               material))       
 
     def pespesquisar_ferramenta_descricao(self, descricao, treeview):
         """Chama o metodo do banco de dados que retorna a ferramenta
@@ -190,3 +192,28 @@ class ControllerFerramentaria:
         else:
             messagebox.showerror(
                 title='Error', message='Ferramenta não Encontrada')
+
+    def pesquisar_reserva_tecnico(self, nome, treeview):
+        nome_tecnico = self.db.pesquisar_reserva_tecnico(nome)
+        treeview.delete(*treeview.get_children())
+
+        for (id, tecnico, ferramenta, devolucao) in nome_tecnico:
+                data_devolucao, hora_devolucao = self.tratar_data(devolucao, 'reserva')
+                treeview.insert('', 'end', values=(id, tecnico, ferramenta,
+                                                   data_devolucao, hora_devolucao))
+
+    def pesquisar_reserva_ferramenta(self, descricao, treeview):
+        """Chama o metodo do banco de dados que retorna a Reserva
+           com a ferramenta informada
+
+        Args:
+            descricao_ferramenta (str): Ferramenta a ser pesquisada
+            treeview (tkinter): Treeview a ser preenchido 
+        """
+        ferrmenta_descricao = self.db.pesquisar_reserva_ferramneta(descricao)
+        treeview.delete(*treeview.get_children())
+
+        for (id, tecnico, ferramenta, devolucao) in ferrmenta_descricao:
+                data_devolucao, hora_devolucao = self.tratar_data(devolucao, 'reserva')
+                treeview.insert('', 'end', values=(id, tecnico, ferramenta,
+                                                   data_devolucao, hora_devolucao))

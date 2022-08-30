@@ -145,10 +145,33 @@ class JanelaReserva(Janela):
                chama a função correta
             """
             if grupo_rb.get() == 0:
-                pass
-                # self.controller.preencher_treeview(
-                #     self.tv_ferramenta, 'ferramenta')
-                # limpar_entry_pesquisar()
+                self.controller.preencher_treeview(
+                    self.tv_reserva, 'reserva')
+                limpar_entry_pesquisar()
+            elif grupo_rb.get() == 1:
+                try:
+                    tecnico_informado = self.ent_pesquisar.get()
+                    self.controller.pesquisar_reserva_tecnico(
+                        tecnico_informado, self.tv_reserva)
+                except (Exception):
+                    messagebox.showinfo(title='Tecnico não encontrado',
+                                        message='Tecnico não encontrado. '
+                                        'Valide o nome do Tecnico!!!')
+                finally:
+                    self.ent_pesquisar.delete(0, END)
+                    self.ent_pesquisar.focus()
+            elif grupo_rb.get() == 2:
+                try:
+                    ferramenta_informada = self.ent_pesquisar.get()
+                    self.controller.pesquisar_reserva_ferramenta(
+                        ferramenta_informada, self.tv_reserva)
+                except (Exception):
+                    messagebox.showinfo(title='Ferramenta não encontrada',
+                                        message='Ferramenta não encontrada. '
+                                        'Valide o nome da Ferramenta!!!')
+                finally:
+                    self.ent_pesquisar.delete(0, END)
+                    self.ent_pesquisar.focus()
 
         # Frame Pesquisar
         fr_pesquisar = LabelFrame(self.frame_direita, text='Pesquisar',
@@ -192,18 +215,20 @@ class JanelaReserva(Janela):
         fr_treeview.grid(column=0, row=1, pady=5)
 
         self.tv_reserva = ttk.Treeview(fr_treeview, columns=('ID', 'TECNICO', 'FERRAMENTA',
-                                                             'DEVOLUCAO'),
+                                                             'DATA_DEVOLUCAO', 'HORA_DEVOLUCAO'),
                                        show='headings')
 
         self.tv_reserva.column('ID', minwidth=10, width=20)
         self.tv_reserva.column('TECNICO', minwidth=0, width=220)
         self.tv_reserva.column('FERRAMENTA', minwidth=50, width=150)
-        self.tv_reserva.column('DEVOLUCAO', minwidth=80, width=100)
+        self.tv_reserva.column('DATA_DEVOLUCAO', minwidth=80, width=100)
+        self.tv_reserva.column('HORA_DEVOLUCAO', minwidth=80, width=100)
 
         self.tv_reserva.heading('ID', text='ID')
         self.tv_reserva.heading('TECNICO', text='TECNICO')
         self.tv_reserva.heading('FERRAMENTA', text='FERRAMENTA')
-        self.tv_reserva.heading('DEVOLUCAO', text='DEVOLUCAO')
+        self.tv_reserva.heading('DATA_DEVOLUCAO', text='DATA DEVOLUCAO')
+        self.tv_reserva.heading('HORA_DEVOLUCAO', text='HORA DEVOLUCAO')
 
         self.tv_reserva.place(relx=0.01, rely=0.01,
                               relwidth=0.96, relheight=0.96)
@@ -219,3 +244,5 @@ class JanelaReserva(Janela):
 
         sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.96)
         sbh.place(relx=0.01, rely=0.97, relwidth=0.96, relheight=0.03)
+
+        self.controller.preencher_treeview(self.tv_reserva, 'reserva')
