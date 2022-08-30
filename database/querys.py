@@ -42,6 +42,13 @@ ATUALIZAR_FERRAMENTA = """UPDATE ferramenta SET descricao = %s, fabricante = %s,
 
 # QUERYS TABELA FERRAMENTA
 #   SELECT
+PESQUISAR_RESERVA = """SELECT tecnico.cpf, ferramenta.id
+                         FROM ferramenta, tecnico, reserva
+                        WHERE reserva.tecnico_cpf = tecnico.cpf AND
+                              reserva.ferramenta_id = ferramenta.id AND
+                              reserva.id = %s
+                        ORDER BY
+                              reserva.id"""                                                                                            
 PESQUISAR_RESERVAS = """SELECT reserva.id, tecnico.nome,
                                ferramenta.descricao, reserva.devolucao
                          FROM ferramenta, tecnico, reserva
@@ -61,7 +68,7 @@ PESQUISAR_RESERVA_FERRAMENTA = """SELECT reserva.id, tecnico.nome,
                                   WHERE reserva.tecnico_cpf = tecnico.cpf AND
                                         reserva.ferramenta_id = ferramenta.id AND
                                         ferramenta.descricao like '%%' || %s || '%%'
-                                  ORDER BY reserva.id"""                                                              
+                                  ORDER BY reserva.id"""    
 #   INSERT
 
 #   DELETE

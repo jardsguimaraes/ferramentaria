@@ -49,10 +49,11 @@ class ControllerFerramentaria:
                                                    manutencao, medida, tipo,
                                                    material))
         elif nome_tela == 'reserva':
-            reservas_cadastradas = self.db.pesquisar_reserva()
+            reservas_cadastradas = self.db.pesquisar_reservas()
             treeview.delete(*treeview.get_children())
             for (id, tecnico, ferramenta, devolucao) in reservas_cadastradas:
-                data_devolucao, hora_devolucao = self.tratar_data(devolucao, 'reserva')
+                data_devolucao, hora_devolucao = self.tratar_data(
+                    devolucao, 'reserva')
                 treeview.insert('', 'end', values=(id, tecnico, ferramenta,
                                                    data_devolucao, hora_devolucao))
 
@@ -129,7 +130,7 @@ class ControllerFerramentaria:
             treeview.insert('', 'end', values=(id, descricao, fabricante,
                                                voltagem, serial, tamanho,
                                                manutencao, medida, tipo,
-                                               material))       
+                                               material))
 
     def pespesquisar_ferramenta_descricao(self, descricao, treeview):
         """Chama o metodo do banco de dados que retorna a ferramenta
@@ -193,14 +194,20 @@ class ControllerFerramentaria:
             messagebox.showerror(
                 title='Error', message='Ferramenta não Encontrada')
 
+    def pesquisar_reserva(self, id_reserva):
+        reserva = self.db.pesquisar_reserva(id_reserva)
+        for (tecnico_cpf, ferramenta_id) in reserva:
+            return tecnico_cpf, ferramenta_id
+    
     def pesquisar_reserva_tecnico(self, nome, treeview):
         nome_tecnico = self.db.pesquisar_reserva_tecnico(nome)
         treeview.delete(*treeview.get_children())
 
         for (id, tecnico, ferramenta, devolucao) in nome_tecnico:
-                data_devolucao, hora_devolucao = self.tratar_data(devolucao, 'reserva')
-                treeview.insert('', 'end', values=(id, tecnico, ferramenta,
-                                                   data_devolucao, hora_devolucao))
+            data_devolucao, hora_devolucao = self.tratar_data(
+                devolucao, 'reserva')
+            treeview.insert('', 'end', values=(id, tecnico, ferramenta,
+                                               data_devolucao, hora_devolucao))
 
     def pesquisar_reserva_ferramenta(self, descricao, treeview):
         """Chama o metodo do banco de dados que retorna a Reserva
@@ -214,6 +221,7 @@ class ControllerFerramentaria:
         treeview.delete(*treeview.get_children())
 
         for (id, tecnico, ferramenta, devolucao) in ferrmenta_descricao:
-                data_devolucao, hora_devolucao = self.tratar_data(devolucao, 'reserva')
-                treeview.insert('', 'end', values=(id, tecnico, ferramenta,
-                                                   data_devolucao, hora_devolucao))
+            data_devolucao, hora_devolucao = self.tratar_data(
+                devolucao, 'reserva')
+            treeview.insert('', 'end', values=(id, tecnico, ferramenta,
+                                               data_devolucao, hora_devolucao))

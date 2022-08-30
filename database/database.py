@@ -4,7 +4,7 @@ from database.querys import PESQUISAR_TECNICO_ARGUMENTO_NOME
 from database.querys import INSERIR_TECNICO, PESQUISAR_TECNICO_ARGUMENTO_CPF
 from database.querys import ATUALIZAR_TECNICO, DELETAR_TECNICO
 from database.querys import PESQUISAR_FERRAMENTAS, PESQUISAR_FERRAMENTA_ID
-from database.querys import PESQUISAR_FERRAMENTA_FABRICANTE
+from database.querys import PESQUISAR_FERRAMENTA_FABRICANTE, PESQUISAR_RESERVA
 from database.querys import INSERIR_FERRAMENTA, DELETAR_FERRAMENTA
 from database.querys import ATUALIZAR_FERRAMENTA, PESQUISAR_RESERVAS
 from database.querys import PESQUISAR_RESERVA_TECNICO, PESQUISAR_RESERVA_FERRAMENTA
@@ -195,7 +195,7 @@ class Database:
             list: Retorna todas as Ferramentas cadastradas no SGBD com a
             descrição informada
         """
-        try:            
+        try:
             conexao = self.abrir_conexao()
             self.cursor = conexao.cursor()
             self.cursor.execute(PESQUISAR_FERRAMENTA_DESCRICAO, (descricao, ))
@@ -216,10 +216,11 @@ class Database:
             list: Retorna todas as Ferramentas cadastradas no SGBD com o
             fabricante informado
         """
-        try:            
+        try:
             conexao = self.abrir_conexao()
             self.cursor = conexao.cursor()
-            self.cursor.execute(PESQUISAR_FERRAMENTA_FABRICANTE, (fabricante, ))
+            self.cursor.execute(
+                PESQUISAR_FERRAMENTA_FABRICANTE, (fabricante, ))
             resultado = self.cursor.fetchall()
             return resultado
         except (Exception, DatabaseError) as ex:
@@ -267,7 +268,19 @@ class Database:
         finally:
             self.fechar_conexao()
 
-    def pesquisar_reserva(self):
+    def pesquisar_reserva(self, id_reserva):
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(PESQUISAR_RESERVA, (id_reserva, ))
+            resultado = self.cursor.fetchall()
+            return resultado
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Select Reserva ', ex)
+        finally:
+            self.fechar_conexao()
+    
+    def pesquisar_reservas(self):
         """Função para pesquisar todas as Reservas
 
         Returns:
@@ -283,7 +296,7 @@ class Database:
             print('Erro no Select Reserva ', ex)
         finally:
             self.fechar_conexao()
-    
+
     def pesquisar_reserva_tecnico(self, nome):
         """Realiza um Select no Banco
 
@@ -324,18 +337,5 @@ class Database:
         finally:
             self.fechar_conexao()
 
-    
-    def inserir_reserva(self):        
+    def inserir_reserva(self):
         pass
-
-
-
-
-
-
-
-
-
-
-
-

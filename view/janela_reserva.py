@@ -1,8 +1,9 @@
+from model.ferramenta import Ferramenta
 from view.janela import Janela
 from constantes.constantes import AZUL, BRANCO, PRETO, VERDE, VERMELHO
 from constantes.constantes import VERDE_CLARO, LISTA_HORARIOS
 from controller.controller_ferramentaria import ControllerFerramentaria
-from tkinter import SEL, Entry, IntVar, Label, Button, LabelFrame, Frame
+from tkinter import SEL, Entry, IntVar, Label, Button, LabelFrame, Frame, StringVar
 from tkinter import Radiobutton, messagebox, ttk, Scrollbar
 from tkinter.constants import NW, END
 from tkcalendar import DateEntry
@@ -14,12 +15,17 @@ class JanelaReserva(Janela):
         super().__init__(janela_principal)
         self.pasta_app = local_imagens
         self.controller = ControllerFerramentaria()
-        self.nome_tecnico = 'Jards de Oliveira Gumaraes de Albuquerque'
-        self.nome_ferramenta = 'Chave de Boca'
+        self.nome_tecnico = StringVar()
+        self.nome_ferramenta = StringVar()
         self.carrega_frame_cima()
         self.carrega_frame_baixo()
         self.carrega_frame_direita()
 
+    def limpar_campos(self):
+        self.ent_id.delete(0, END)
+        self.ent_id_tecnico.delete(0, END)
+        self.ent_id_ferramenta.delete(0, END)
+    
     def carrega_frame_cima(self):
         lb_titulo = Label(self.frame_cima, text='Reserva:', font='Ivy 13 bold',
                           fg=BRANCO, bg=VERDE, relief='flat')
@@ -63,8 +69,8 @@ class JanelaReserva(Janela):
                                        overrelief='ridge',
                                        command=botao_pesquisar_tecnico)
         self.btn_lupa_tecnico.place(x=205, y=40)
-        self.lb_nome_tecnico = Label(self.frame_baixo, text=self.nome_tecnico, anchor=NW,
-                                     font='Times 10', fg=PRETO, bg=BRANCO,
+        self.lb_nome_tecnico = Label(self.frame_baixo, textvariable=self.nome_tecnico, anchor=NW,
+                                     font='Times 10', fg=AZUL, bg=BRANCO,
                                      relief='flat')
         self.lb_nome_tecnico.place(x=15, y=60)
 
@@ -81,8 +87,8 @@ class JanelaReserva(Janela):
                                           overrelief='ridge',
                                           command=botao_pesquisar_ferramenta)
         self.btn_lupa_ferramenta.place(x=235, y=90)
-        self.lb_nome_ferramenta = Label(self.frame_baixo, text=self.nome_ferramenta,
-                                        anchor=NW, font='Times 10', fg=PRETO,
+        self.lb_nome_ferramenta = Label(self.frame_baixo, textvariable=self.nome_ferramenta,
+                                        anchor=NW, font='Times 10', fg=AZUL,
                                         bg=BRANCO, relief='flat')
         self.lb_nome_ferramenta.place(x=15, y=110)
 
@@ -132,7 +138,19 @@ class JanelaReserva(Janela):
     def carrega_frame_direita(self):
 
         def apresentar_dados_selecionados(event):
-            pass
+            reserva_selecionada = self.tv_reserva.selection()
+            valores = self.tv_reserva.item(reserva_selecionada, 'values')
+            tecnico_cpf, ferramenta_id = self.controller.pesquisar_reserva(valores[0])
+
+            self.limpar_campos()
+
+            self.ent_id.insert(0, valores[0])
+            self.ent_id_tecnico.insert(0, tecnico_cpf)
+            self.nome_tecnico.set(valores[1])
+            self.ent_id_ferramenta.insert(0, ferramenta_id)
+            self.nome_ferramenta.set(valores[2])
+            self.ent_devolucao.set_date(valores[3])
+            self.cbx_hora_devolucao.set(valores[4])
 
         def limpar_entry_pesquisar():
             """Limpa o Campo de Pesquisa
