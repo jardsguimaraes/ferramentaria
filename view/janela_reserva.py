@@ -1,5 +1,6 @@
 from view.janela import Janela
 from view.janela_reserva_pesq_tecnico import JanelaReservaPesqTecnico
+from view.janela_reserva_pesq_ferramenta import JanelaReservaPesqFerramenta
 from constantes.constantes import AZUL, BRANCO, PRETO, VERDE, VERMELHO
 from constantes.constantes import VERDE_CLARO, LISTA_HORARIOS
 from controller.controller_ferramentaria import ControllerFerramentaria
@@ -47,7 +48,8 @@ class JanelaReserva(Janela):
                                      self.nome_tecnico)
 
         def botao_pesquisar_ferramenta():
-            print('Pesquisar Tecnico')
+            JanelaReservaPesqFerramenta(self.ent_id_ferramenta,
+                                        self.nome_ferramenta)
 
         # ID
         lb_id = Label(self.frame_baixo, text='ID:', anchor=NW, font='Ivy 13 bold',
