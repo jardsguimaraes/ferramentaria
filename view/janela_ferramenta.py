@@ -17,6 +17,7 @@ class JanelaFerramenta(Janela):
         self.carrega_frame_cima()
         self.carrega_frame_baixo()
         self.carrega_frame_direita()
+        self.pesquisar_tecinco
         self.ent_id.focus()
 
     def limpar_campos(self):
@@ -399,7 +400,7 @@ class JanelaFerramenta(Janela):
         self.tv_ferramenta.heading('MATERIAL', text='MATERIAL')
 
         self.tv_ferramenta.place(relx=0.01, rely=0.01,
-                                 relwidth=0.96, relheight=0.96)
+                                 relwidth=0.96, relheight=0.94)
         self.tv_ferramenta.bind('<<TreeviewSelect>>',
                                 apresentar_dados_selecionados)
 
@@ -410,7 +411,10 @@ class JanelaFerramenta(Janela):
         self.tv_ferramenta.configure(yscrollcommand=sbv.set,
                                      xscrollcommand=sbh.set)
 
-        sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.96)
-        sbh.place(relx=0.01, rely=0.97, relwidth=0.96, relheight=0.03)
+        sbv.place(relx=0.97, rely=0.01, relwidth=0.03, relheight=0.94)
+        sbh.place(relx=0.01, rely=0.97, relwidth=0.96, relheight=0.04)
 
         self.controller.preencher_treeview(self.tv_ferramenta, 'ferramenta')
+
+    def pesquisar_tecinco(self):
+        pass

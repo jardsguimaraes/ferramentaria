@@ -203,7 +203,7 @@ class JanelaTecnico(Janela):
         """
 
         def apresentar_dados_selecionados(event):
-            """Retonra o Tecnico selecionada no Treeview
+            """Retorna o Tecnico selecionada no Treeview
 
             Args:
                 event (tuple): Tupla com o Tecnico Selecionado
@@ -231,7 +231,7 @@ class JanelaTecnico(Janela):
                 try:
                     cpf_informado = int(self.ent_pesquisar.get())
                     self.controller.pesquisar_tecnico_cpf(
-                        cpf_informado, self.tv_tecnico)                    
+                        cpf_informado, self.tv_tecnico)
                 except (Exception):
                     messagebox.showinfo(title='Tecnico não encontrado',
                                         message='CPF não encontrado. '
@@ -242,8 +242,8 @@ class JanelaTecnico(Janela):
             else:
                 try:
                     nome_informado = self.ent_pesquisar.get()
-                    tecnico_nome = self.controller.pesquisar_tecnico_nome(
-                        nome_informado, self.tv_tecnico)                    
+                    self.controller.pesquisar_tecnico_nome(
+                        nome_informado, self.tv_tecnico)
                 except (Exception):
                     messagebox.showinfo(title='Tecnico não encontrado',
                                         message='Nome não encontadro!!!')
@@ -306,7 +306,7 @@ class JanelaTecnico(Janela):
         self.tv_tecnico.column('NOME', minwidth=0, width=220)
         self.tv_tecnico.column('TELEFONE', minwidth=0, width=95)
         self.tv_tecnico.column('TURNO', minwidth=0, width=60)
-        self.tv_tecnico.column('EQUIPE', minwidth=0, width=50)
+        self.tv_tecnico.column('EQUIPE', minwidth=0, width=100)
 
         self.tv_tecnico.heading('CPF', text='CPF')
         self.tv_tecnico.heading('NOME', text='NOME')

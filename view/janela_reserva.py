@@ -1,5 +1,5 @@
-from model.ferramenta import Ferramenta
 from view.janela import Janela
+from view.janela_reserva_pesq_tecnico import JanelaReservaPesqTecnico
 from constantes.constantes import AZUL, BRANCO, PRETO, VERDE, VERMELHO
 from constantes.constantes import VERDE_CLARO, LISTA_HORARIOS
 from controller.controller_ferramentaria import ControllerFerramentaria
@@ -25,7 +25,7 @@ class JanelaReserva(Janela):
         self.ent_id.delete(0, END)
         self.ent_id_tecnico.delete(0, END)
         self.ent_id_ferramenta.delete(0, END)
-    
+
     def carrega_frame_cima(self):
         lb_titulo = Label(self.frame_cima, text='Reserva:', font='Ivy 13 bold',
                           fg=BRANCO, bg=VERDE, relief='flat')
@@ -43,7 +43,8 @@ class JanelaReserva(Janela):
             pass
 
         def botao_pesquisar_tecnico():
-            print('Pesquisar Tecnico')
+            JanelaReservaPesqTecnico(self.ent_id_tecnico,
+                                     self.nome_tecnico)
 
         def botao_pesquisar_ferramenta():
             print('Pesquisar Tecnico')
@@ -140,7 +141,8 @@ class JanelaReserva(Janela):
         def apresentar_dados_selecionados(event):
             reserva_selecionada = self.tv_reserva.selection()
             valores = self.tv_reserva.item(reserva_selecionada, 'values')
-            tecnico_cpf, ferramenta_id = self.controller.pesquisar_reserva(valores[0])
+            tecnico_cpf, ferramenta_id = self.controller.pesquisar_reserva(
+                valores[0])
 
             self.limpar_campos()
 
