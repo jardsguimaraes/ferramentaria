@@ -102,6 +102,11 @@ class Ferramenta:
         return str(data_formatada)
 
     def inserir(self, ferramenta):
+        """Chama o metodo que Insere a Ferramenta no Bando de Dados
+
+        Args:
+            ferramenta (Ferramenta): Ferramenta que será Inserida
+        """
         parametros = (ferramenta.descricao, ferramenta.fabricante, ferramenta.voltagem,
                       ferramenta.serial, ferramenta.tamanho,
                       ferramenta.manutencao, ferramenta.medida,
@@ -109,6 +114,11 @@ class Ferramenta:
         self.db.inserir_ferramenta(*parametros)
 
     def atualizar(self, ferramenta):
+        """Chama o metodo que Atualiza a Ferramenta no Bando de Dados
+
+        Args:
+            ferramenta (Ferramenta): Ferramenta que será Atualizada
+        """
         parametros = (ferramenta.descricao, ferramenta.fabricante, ferramenta.voltagem,
                       ferramenta.serial, ferramenta.tamanho,
                       ferramenta.manutencao, ferramenta.medida,
@@ -122,8 +132,3 @@ class Ferramenta:
             ferramenta (Ferramenta): Ferramenta que será Deletada
         """
         self.db.deletar_ferramenta(ferramenta.id)
-
-        """self, id, descricao, fabricante,
-                 voltagem, serial, tamanho, manutencao,
-                 medida, tipo, material)
-        """

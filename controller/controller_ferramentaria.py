@@ -1,5 +1,6 @@
 from model.tecnico import Tecnico
 from model.ferramenta import Ferramenta
+from model.reserva import Reserva
 from database.database import Database
 from tkinter import messagebox
 from datetime import datetime
@@ -24,7 +25,7 @@ class ControllerFerramentaria:
             data_formatada = datetime.strftime(data, "%d/%m/%Y")
             hora_formatada = datetime.strftime(data, "%H:%M")
             return data_formatada, hora_formatada
-
+    
     def preencher_treeview(self, treeview, nome_tela):
         """Preenche o Treeview
 
@@ -225,3 +226,23 @@ class ControllerFerramentaria:
                 devolucao, 'reserva')
             treeview.insert('', 'end', values=(id, tecnico, ferramenta,
                                                data_devolucao, hora_devolucao))
+
+    def inserir_reserva(self, *args):
+        reserva = Reserva(*args)
+        reserva.inserir(reserva)
+    
+    def atualizar_reserva(self, *args):
+        if self.db.pesquisar_reserva(args[0]):
+            reserva = Reserva(*args)
+            reserva.atualizar(reserva)
+        else:
+            messagebox.showerror(
+                title='Error', message='Reserva não Encontrada')
+    
+    def deletar_reserva(self, *args):
+        if self.db.pesquisar_reserva(args[0]):
+            reserva = Reserva(*args)
+            reserva.deletar(reserva)
+        else:
+            messagebox.showerror(
+                title='Error', message='Reserva não Encontrada')

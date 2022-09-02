@@ -1,11 +1,11 @@
 from psycopg2 import DatabaseError
 from database.querys import PESQUISAR_FERRAMENTA_DESCRICAO, PESQUISAR_TECNICOS
-from database.querys import PESQUISAR_TECNICO_ARGUMENTO_NOME
+from database.querys import PESQUISAR_TECNICO_ARGUMENTO_NOME, DELETAR_RESERVA
 from database.querys import INSERIR_TECNICO, PESQUISAR_TECNICO_ARGUMENTO_CPF
-from database.querys import ATUALIZAR_TECNICO, DELETAR_TECNICO
+from database.querys import ATUALIZAR_TECNICO, DELETAR_TECNICO, INSERIR_RESERVA
 from database.querys import PESQUISAR_FERRAMENTAS, PESQUISAR_FERRAMENTA_ID
 from database.querys import PESQUISAR_FERRAMENTA_FABRICANTE, PESQUISAR_RESERVA
-from database.querys import INSERIR_FERRAMENTA, DELETAR_FERRAMENTA
+from database.querys import INSERIR_FERRAMENTA, DELETAR_FERRAMENTA, ATUALIZAR_RESERVA
 from database.querys import ATUALIZAR_FERRAMENTA, PESQUISAR_RESERVAS
 from database.querys import PESQUISAR_RESERVA_TECNICO, PESQUISAR_RESERVA_FERRAMENTA
 
@@ -65,7 +65,7 @@ class Database:
         """Realiza um Select no Banco
 
         Args:
-            cpf (int): CPF a ser procurado no Bando de Dados. 
+            cpf (int): CPF a ser procurado no Bando de Dados.
                        Deve ser informado apenas os números
 
         Returns:
@@ -86,7 +86,7 @@ class Database:
         """Realiza um Select no Banco
 
         Args:
-            nome (str): Nome a ser procurado no Bando de Dados. 
+            nome (str): Nome a ser procurado no Bando de Dados.
 
         Returns:
             list:  Retorna o Tecnico com o Nome informado
@@ -253,7 +253,7 @@ class Database:
             self.cursor.execute(DELETAR_FERRAMENTA, (id, ))
             conexao.commit()
         except (Exception, DatabaseError) as ex:
-            print('Erro no Select Ferramenta Fabricante', ex)
+            print('Erro no Deletar Ferramenta', ex)
         finally:
             self.fechar_conexao()
 
@@ -279,7 +279,7 @@ class Database:
             print('Erro no Select Reserva ', ex)
         finally:
             self.fechar_conexao()
-    
+
     def pesquisar_reservas(self):
         """Função para pesquisar todas as Reservas
 
@@ -301,7 +301,7 @@ class Database:
         """Realiza um Select no Banco
 
         Args:
-            nome (str): Nome a ser procurado a Reserva no Bando de Dados. 
+            nome (str): Nome a ser procurado a Reserva no Bando de Dados.
 
         Returns:
             list:  Retorna a Reserva com o Nome do Tecnico informado
@@ -337,5 +337,40 @@ class Database:
         finally:
             self.fechar_conexao()
 
-    def inserir_reserva(self):
-        pass
+    def inserir_reserva(self, *args):
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(INSERIR_RESERVA, args)
+            conexao.commit()
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Insert Reserva', ex)
+        finally:
+            self.fechar_conexao()
+
+    def deletar_reserva(self, id):
+        """Função para Deletar uma Reserva no SGBD
+
+        Args:
+            id (int): ID da Reserva
+        """
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(DELETAR_RESERVA, (id, ))
+            conexao.commit()
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Deletar Reserva', ex)
+        finally:
+            self.fechar_conexao()
+
+    def atualizar_reserva(self, *args):
+        try:
+            conexao = self.abrir_conexao()
+            self.cursor = conexao.cursor()
+            self.cursor.execute(ATUALIZAR_RESERVA, args)
+            conexao.commit()
+        except (Exception, DatabaseError) as ex:
+            print('Erro no Atualizar Reserva', ex)
+        finally:
+            self.fechar_conexao()

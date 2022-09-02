@@ -26,6 +26,8 @@ class JanelaReserva(Janela):
         self.ent_id.delete(0, END)
         self.ent_id_tecnico.delete(0, END)
         self.ent_id_ferramenta.delete(0, END)
+        self.nome_tecnico.set(' ')
+        self.nome_ferramenta.set(' ')
 
     def carrega_frame_cima(self):
         lb_titulo = Label(self.frame_cima, text='Reserva:', font='Ivy 13 bold',
@@ -34,14 +36,78 @@ class JanelaReserva(Janela):
 
     def carrega_frame_baixo(self):
 
+        def valida_formaulario(botao='passar'):
+            retorno = True
+
+            if not self.ent_id.get().split() and botao == 'Deletar':
+                retorno = False
+            if not self.ent_id_tecnico.get().split():
+                retorno = False
+            if not self.ent_id_ferramenta.get().split():
+                retorno = False
+
+            return retorno
+
+        def pega_formulario():
+            devolucao = self.ent_devolucao.get() + ' ' + self.cbx_hora_devolucao.get()
+            parametros = (self.ent_id.get(), self.ent_id_tecnico.get(),
+                          self.ent_id_ferramenta.get(), devolucao)
+            return parametros
+
         def botao_inserir():
-            pass
+            """insere uma Reserva
+            """
+            if valida_formaulario():
+                parametros = pega_formulario()
+                self.controller.inserir_reserva(*parametros)     
+                self.tv_reserva.delete(*self.tv_reserva.get_children())
+                self.controller.preencher_treeview(self.tv_reserva, 'reserva')
+                self.limpar_campos()
+                messagebox.showinfo(title='Cadastrado!!!',
+                                    message='Reserva Cadastrada com Sucesso')
+                self.ent_id.focus()
+            else:
+                messagebox.showerror(title='Error', message='Todos os campos '
+                                                            'devem estar '
+                                                            'preeenchidos!!!')
+                self.ent_id.focus()
 
         def botao_atualizar():
-            pass
+            """Atualiza uma Reserva
+            """
+            if valida_formaulario():
+                parametros = pega_formulario()
+                self.controller.atualizar_reserva(*parametros)   
+                self.tv_reserva.delete(*self.tv_reserva.get_children())                  
+                self.controller.preencher_treeview(self.tv_reserva, 'reserva')
+                self.limpar_campos()
+                messagebox.showinfo(title='Atualizado!!!',
+                                    message='Reserva Atualizada com Sucesso')
+                self.ent_id.focus()
+            else:
+                messagebox.showerror(title='Error', message='Todos os campos '
+                                                            'devem estar '
+                                                            'preeenchidos!!!')
+                self.ent_id.focus()       
+
 
         def botao_deletar():
-            pass
+            """Deleta uma Reserva
+            """
+            if valida_formaulario('Deletar'):
+                parametros = pega_formulario()
+                self.controller.deletar_reserva(*parametros)
+                self.tv_reserva.delete(*self.tv_reserva.get_children())
+                self.controller.preencher_treeview(self.tv_reserva, 'reserva')
+                self.limpar_campos()
+                messagebox.showinfo(title='Deletado!!!',
+                                    message='Reserva Deletada com Sucesso')
+                self.ent_id.focus()
+            else:
+                messagebox.showerror(title='Error', message='O campo ID '
+                                                            'devem estar '
+                                                            'preeenchidos!!!')
+                self.ent_id.focus()
 
         def botao_pesquisar_tecnico():
             JanelaReservaPesqTecnico(self.ent_id_tecnico,

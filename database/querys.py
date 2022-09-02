@@ -48,7 +48,7 @@ PESQUISAR_RESERVA = """SELECT tecnico.cpf, ferramenta.id
                               reserva.ferramenta_id = ferramenta.id AND
                               reserva.id = %s
                         ORDER BY
-                              reserva.id"""                                                                                            
+                              reserva.id"""
 PESQUISAR_RESERVAS = """SELECT reserva.id, tecnico.nome,
                                ferramenta.descricao, reserva.devolucao
                          FROM ferramenta, tecnico, reserva
@@ -61,16 +61,20 @@ PESQUISAR_RESERVA_TECNICO = """SELECT reserva.id, tecnico.nome,
                                WHERE reserva.tecnico_cpf = tecnico.cpf AND
                                      reserva.ferramenta_id = ferramenta.id AND
                                      tecnico.nome like '%%' || %s || '%%'
-                               ORDER BY reserva.id"""        
+                               ORDER BY reserva.id"""
 PESQUISAR_RESERVA_FERRAMENTA = """SELECT reserva.id, tecnico.nome,
                                          ferramenta.descricao, reserva.devolucao
                                   FROM ferramenta, tecnico, reserva
                                   WHERE reserva.tecnico_cpf = tecnico.cpf AND
                                         reserva.ferramenta_id = ferramenta.id AND
                                         ferramenta.descricao like '%%' || %s || '%%'
-                                  ORDER BY reserva.id"""    
+                                  ORDER BY reserva.id"""
 #   INSERT
-
+INSERIR_RESERVA = """INSERT INTO reserva (tecnico_cpf, ferramenta_id, devolucao)
+                     VALUES (%s, %s, %s)"""
 #   DELETE
+DELETAR_RESERVA = """DELETE FROM reserva WHERE id = %s"""
 
 #   UPDATE
+ATUALIZAR_RESERVA = """UPDATE reserva SET tecnico_cpf = %s, ferramenta_id = %s,
+                          devolucao = %s WHERE id = %s"""
