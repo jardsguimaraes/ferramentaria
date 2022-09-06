@@ -25,7 +25,7 @@ class JanelaSobre:
         janela_sobre.configure(bg=BRANCO)
 
         msg_linha_1 = "Trabalho acadêmico para atender a Missão Certificadora"
-        msg_linha_2 = "do primeiro peíodo do Curso Desenvolvedor FullStack"
+        msg_linha_2 = "Mundo 1 do Curso Desenvolvimento Full Stack"
         msg_linha_3 = "pela instituíção de ensino Estacio. \n\n"
         msg_linha_4 = "                               GRUPO 4 \n\n"
         msg_linha_5 = " Allan Eduardo da Conceição Fortes(202205187391)\n"
