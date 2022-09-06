@@ -30,9 +30,11 @@ class JanelaSobre:
         msg_linha_4 = "                               GRUPO 4 \n\n"
         msg_linha_5 = " Allan Eduardo da Conceição Fortes(202205187391)\n"
         msg_linha_6 = "Jards de Oliveira Guimarães(202205003922) \n"
-        mgs_linha_7 = "Raferson Neres Faustino da Silva(202205216594) \n"
+        mgs_linha_7 = "Rafael Vilarinho Dias Jacob(202205050289) \n"
+        mgs_linha_8 = "Raferson Neres Faustino da Silva(202205216594) \n"
+
         menssagem = (f'{msg_linha_1} {msg_linha_2} {msg_linha_3} {msg_linha_4}'
-                     f'{msg_linha_5} {msg_linha_6} {mgs_linha_7}')
+                     f'{msg_linha_5} {msg_linha_6} {mgs_linha_7} {mgs_linha_8}')
 
         msg = Message(janela_sobre, text=menssagem)
         msg.configure(bg=BRANCO,font='Ivy 16', width=500)
